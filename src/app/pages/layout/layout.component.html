@@ -1,0 +1,15 @@
+<header>
+  <div class="container">
+    <h1 class="logo"></h1>
+
+    <nav>
+      <ul>
+        <li><a href="#">Home</a></li>
+        <li><a routerLink="/dashboard">Products</a></li>
+        <li><a routerLink="/category" routerLinkActive="active">Category</a></li>
+        <li><a (click)="logOut()">Logout</a></li>
+      </ul>
+    </nav>
+  </div>
+</header>
+<router-outlet></router-outlet>

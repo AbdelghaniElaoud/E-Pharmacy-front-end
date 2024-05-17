@@ -1,0 +1,34 @@
+import { Component } from '@angular/core';
+import {FormsModule} from "@angular/forms";
+import {HttpClient, HttpClientModule} from "@angular/common/http";
+import {Router} from "@angular/router";
+import {Login} from "../../model/Login";
+
+@Component({
+  selector: 'app-login',
+  standalone: true,
+  imports: [FormsModule,HttpClientModule],
+  templateUrl: './login.component.html',
+  styleUrl: './login.component.css'
+})
+export class LoginComponent {
+  LoginObj : Login;
+
+  constructor(private http : HttpClient, private router:Router) {
+    this.LoginObj = new Login();
+  }
+
+
+  onLogin() {
+    debugger;
+    this.http.post('http://localhost:8080/api/auth/signin', this.LoginObj).subscribe((res:any)=>{
+     if (res.success){
+       localStorage.setItem('token',res.accessToken)
+       this.router.navigateByUrl('/dashboard')
+     }else {
+       alert(res.message)
+     }
+    })
+  }
+}
+

@@ -1,0 +1,63 @@
+.card {
+  border: none;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+  transition: transform 0.3s ease;
+}
+
+.card:hover {
+  transform: translateY(-5px);
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+}
+
+.card-img-top {
+  height: 200px;
+  object-fit: cover;
+}
+
+.card-title {
+  font-size: 18px;
+  font-weight: bold;
+  color: #333;
+}
+
+.card-text {
+  font-size: 14px;
+  color: #555;
+}
+
+.card-text.price {
+  color: #b12704; /* Amazon orange */
+  font-weight: bold;
+}
+
+.card-text.stock {
+  color: #006400; /* Dark green */
+  font-weight: bold;
+}
+
+.card-text.category {
+  color: #333;
+  text-transform: uppercase;
+  letter-spacing: 1px;
+  font-size: 12px;
+}
+
+.add-to-cart-button {
+  background-color: #28a745;
+  color: #fff;
+  border: none;
+  padding: 8px 16px;
+  font-size: 14px;
+  font-weight: bold;
+  border-radius: 5px;
+  cursor: pointer;
+  transition: background-color 0.3s ease;
+}
+
+.add-to-cart-button:hover {
+  background-color: #218838;
+}
+
+.card-link {
+  text-decoration: none;
+}

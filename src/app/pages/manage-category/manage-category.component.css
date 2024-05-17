@@ -1,0 +1,7 @@
+.category-card {
+  transition: box-shadow 0.3s ease-in-out;
+}
+
+.category-card:hover {
+  box-shadow: 0 0 20px rgba(0, 123, 255, 0.5);
+}

@@ -1,0 +1,27 @@
+<div *ngIf="product" class="product-details">
+  <div class="product-info">
+    <h2>{{ product.name }}</h2>
+    <p>Description: {{ product.description }}</p>
+    <p>Price: ${{ product.price }}</p>
+    <p>Code: {{ product.code }}</p>
+    <p>Does it require a prescription: {{ product.prescription ? 'Yes' : 'No' }}</p>
+    <p>Stock: {{ product.stock }}</p>
+    <p>Category: {{ product.category.name }}</p>
+    <div class="button-group">
+      <div class="back-button">
+        <button (click)="backClicked()">Back</button>
+      </div>
+      <div class="add-to-cart-button">
+        <button (click)="addToCartClicked()">Add to Cart</button>
+      </div>
+    </div>
+  </div>
+  <div class="product-images">
+    <img *ngIf="product.medias.length > 0" [src]="product.medias[selectedImageIndex]" alt="Product Image" class="main-image">
+    <div class="thumbnail-images">
+      <div *ngFor="let media of product.medias; let i = index" class="thumbnail-image" (click)="selectedImageIndex = i">
+        <img [src]="media" alt="Thumbnail Image">
+      </div>
+    </div>
+  </div>
+</div>
