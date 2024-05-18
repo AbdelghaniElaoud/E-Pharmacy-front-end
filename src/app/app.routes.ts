@@ -5,6 +5,7 @@ import {LayoutComponent} from "./pages/layout/layout.component";
 import {AddCategoryComponent} from "./pages/add-category/add-category.component";
 import {ManageCategoryComponent} from "./pages/manage-category/manage-category.component";
 import {ProductDetailsComponent} from "./pages/product-details/product-details.component";
+import {CartComponent} from "./pages/cart/cart.component";
 
 export const routes: Routes = [
   {
@@ -28,6 +29,9 @@ export const routes: Routes = [
       },
       {
         path: 'product-details/:id', component : ProductDetailsComponent
+      },
+      {
+        path: 'cart', component : CartComponent
       }
     ]
   }
