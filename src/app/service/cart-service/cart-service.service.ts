@@ -1,7 +1,7 @@
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 import {Injectable, OnInit} from '@angular/core';
 import { BehaviorSubject } from 'rxjs';
-import jwt_decode from 'jwt-decode';
+import jwt_decode, {jwtDecode} from 'jwt-decode';
 
 
 interface DecodedToken {
@@ -20,17 +20,20 @@ export class CartService implements OnInit{
    activeCartId: number = 0;
    userId: number = 0;
 
-  constructor(private http: HttpClient) {
-  }
 
   ngOnInit(): void {
     this.decodeToken();
   }
 
+  constructor(private http: HttpClient) {
+  }
+
+
   decodeToken(): void {
+    debugger;
     const token = localStorage.getItem('token');
     if (token) {
-      const decodedToken: DecodedToken = jwt_decode(token);
+      const decodedToken: DecodedToken = jwtDecode(token);
       const username = decodedToken.sub;
       this.fetchUserId(username);
     }
