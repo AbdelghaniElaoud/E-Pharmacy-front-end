@@ -1,0 +1,12 @@
+<h2>Add Media for Product {{ productId }}</h2>
+<form (ngSubmit)="uploadMedia()" #mediaForm="ngForm" class="container">
+  <div class="mb-3">
+    <label for="media" class="form-label">Select Files</label>
+    <input type="file" id="media" class="form-control" (change)="onFileSelected($event)" multiple required>
+    <div *ngIf="mediaForm.submitted && !selectedFiles" class="text-danger">Please select at least one file</div>
+  </div>
+  <div *ngIf="uploadInProgress" class="progress">
+    <div class="progress-bar" role="progressbar" [style.width.%]="uploadProgress" [attr.aria-valuenow]="uploadProgress" aria-valuemin="0" aria-valuemax="100"></div>
+  </div>
+  <button type="submit" class="btn btn-primary" [disabled]="uploadInProgress">Upload Media</button>
+</form>

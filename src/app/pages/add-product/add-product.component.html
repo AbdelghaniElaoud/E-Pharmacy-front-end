@@ -1,0 +1,38 @@
+<form (ngSubmit)="onSubmit()" #productForm="ngForm" class="container">
+  <div class="mb-3">
+    <label for="name" class="form-label">Name</label>
+    <input type="text" id="name" class="form-control" [(ngModel)]="product.name" name="name" required>
+    <div *ngIf="productForm.submitted && !productForm.controls['name'].valid" class="text-danger">Name is required</div>
+  </div>
+  <div class="mb-3">
+    <label for="price" class="form-label">Price</label>
+    <input type="number" id="price" class="form-control" [(ngModel)]="product.price" name="price" required>
+    <div *ngIf="productForm.submitted && !productForm.controls['price'].valid" class="text-danger">Price is required</div>
+  </div>
+  <div class="mb-3">
+    <label for="code" class="form-label">Code</label>
+    <input type="text" id="code" class="form-control" [(ngModel)]="product.code" name="code" required>
+    <div *ngIf="productForm.submitted && !productForm.controls['code'].valid" class="text-danger">Code is required</div>
+  </div>
+  <div class="mb-3 form-check">
+    <input type="checkbox" id="prescription" class="form-check-input" [(ngModel)]="product.prescription" name="prescription">
+    <label for="prescription" class="form-check-label">Prescription</label>
+  </div>
+  <div class="mb-3">
+    <label for="description" class="form-label">Description</label>
+    <textarea id="description" class="form-control" [(ngModel)]="product.description" name="description"></textarea>
+  </div>
+  <div class="mb-3">
+    <label for="stock" class="form-label">Stock</label>
+    <input type="number" id="stock" class="form-control" [(ngModel)]="product.stock" name="stock" required>
+    <div *ngIf="productForm.submitted && !productForm.controls['stock'].valid" class="text-danger">Stock is required</div>
+  </div>
+  <div class="mb-3">
+    <label for="category" class="form-label">Category</label>
+    <select id="category" class="form-select" [(ngModel)]="product.category.id" name="category" required>
+      <option *ngFor="let category of categories" [value]="category.id">{{ category.name }}</option>
+    </select>
+    <div *ngIf="productForm.submitted && !productForm.controls['category'].valid" class="text-danger">Category is required</div>
+  </div>
+  <button type="submit" class="btn btn-primary">Add Product</button>
+</form>
