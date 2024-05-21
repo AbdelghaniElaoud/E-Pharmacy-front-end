@@ -36,7 +36,8 @@ export class LoginComponent {
         if (token) {
           const decodedToken: User = jwtDecode(token);
           const userRole = decodedToken.roles[0].authority;
-          switch (userRole) {
+          this.router.navigate(['/dashboard'])
+          /*switch (userRole) {
             case 'ROLE_CUSTOMER':
               this.router.navigate(['/customer']);
               break;
@@ -52,7 +53,7 @@ export class LoginComponent {
             default:
               this.router.navigate(['/login']);
               break;
-          }
+          }*/
         } else {
           console.error('Token not found');
         }
