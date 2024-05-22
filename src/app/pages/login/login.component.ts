@@ -10,6 +10,7 @@ interface User {
   id: number;
   email: string;
   roles: { authority: string }[];
+  active : boolean;
 }
 @Component({
   selector: 'app-login',
@@ -28,32 +29,37 @@ export class LoginComponent {
 
 
   onLogin() {
-    debugger;
     this.http.post('http://localhost:8080/api/auth/signin', this.LoginObj).subscribe((res: any) => {
       if (res.success) {
         localStorage.setItem('token', res.accessToken);
         const token = localStorage.getItem('token');
         if (token) {
           const decodedToken: User = jwtDecode(token);
-          const userRole = decodedToken.roles[0].authority;
-          this.router.navigate(['/dashboard'])
-          /*switch (userRole) {
-            case 'ROLE_CUSTOMER':
-              this.router.navigate(['/customer']);
-              break;
-            case 'ROLE_ADMIN':
-              this.router.navigate(['/admin']);
-              break;
-            case 'ROLE_PHARMACIST':
-              this.router.navigate(['/pharmacist']);
-              break;
-            case 'ROLE_DELIVERY_MAN':
-              this.router.navigate(['/delivery-man']);
-              break;
-            default:
-              this.router.navigate(['/login']);
-              break;
-          }*/
+          if (decodedToken.active) {
+            const userRole = decodedToken.roles[0].authority;
+            this.router.navigate(['/dashboard'])
+            /*
+            switch (userRole) {
+              case 'ROLE_CUSTOMER':
+                this.router.navigate(['/customer']);
+                break;
+              case 'ROLE_ADMIN':
+                this.router.navigate(['/admin']);
+                break;
+              case 'ROLE_PHARMACIST':
+                this.router.navigate(['/pharmacist']);
+                break;
+              case 'ROLE_DELIVERY_MAN':
+                this.router.navigate(['/delivery-man']);
+                break;
+              default:
+                this.router.navigate(['/login']);
+                break;
+            }
+            */
+          } else {
+            alert(res.message);
+          }
         } else {
           console.error('Token not found');
         }
