@@ -68,5 +68,8 @@ export class LoginComponent {
       }
     });
   }
+  isLoggedIn(): boolean {
+    return !!localStorage.getItem('token');
+  }
 }
 
