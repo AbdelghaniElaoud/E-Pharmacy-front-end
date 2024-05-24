@@ -1,7 +1,7 @@
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Injectable, OnInit } from '@angular/core';
 import { BehaviorSubject } from 'rxjs';
-import jwt_decode, {jwtDecode} from 'jwt-decode';
+import jwt_decode, { jwtDecode } from 'jwt-decode';
 
 interface DecodedToken {
   sub: string; // Username
