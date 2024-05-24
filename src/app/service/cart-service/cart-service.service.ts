@@ -147,6 +147,7 @@ export class CartService implements OnInit {
     }
   }
 
+
   private addItemToCartOnServer(quantity: number, productId: number) {
     const requestBody = {
       quantity,
