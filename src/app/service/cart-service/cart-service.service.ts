@@ -1,110 +1,135 @@
 import { HttpClient, HttpHeaders } from '@angular/common/http';
-import {Injectable, OnInit} from '@angular/core';
+import { Injectable, OnInit } from '@angular/core';
 import { BehaviorSubject } from 'rxjs';
 import jwt_decode, {jwtDecode} from 'jwt-decode';
 
-
 interface DecodedToken {
   sub: string; // Username
-  // Other token claims
+  id: number; // Other token claims
 }
 
 @Injectable({
   providedIn: 'root'
 })
-export class CartService implements OnInit{
-   cart: Map<any, number> = new Map();
-   cartSubject = new BehaviorSubject<Map<any, number>>(this.cart);
+export class CartService implements OnInit {
+  cart: Map<any, number> = new Map();
+  cartSubject = new BehaviorSubject<Map<any, number>>(this.cart);
   cart$ = this.cartSubject.asObservable();
   totalPrice: number = 0;
-   activeCartId: number = 0;
-   userId: number = 0;
-
-
-  ngOnInit(): void {
-    this.decodeToken();
-  }
+  activeCartId: number = 0;
+  userId: number = 0;
+  private initializationPromise: Promise<void>;
 
   constructor(private http: HttpClient) {
+    this.initializationPromise = this.initializeService();
   }
 
+  ngOnInit(): void {}
 
-  decodeToken(): void {
-    debugger;
+  private async initializeService() {
+    try {
+      this.decodeToken();
+      await this.getActiveCartId();
+    } catch (error) {
+      console.error('Error during initialization:', error);
+    }
+  }
+
+  private decodeToken(): void {
     const token = localStorage.getItem('token');
     if (token) {
       const decodedToken: DecodedToken = jwtDecode(token);
-      const username = decodedToken.sub;
-      this.fetchUserId(username);
+      this.userId = decodedToken.id;
     }
   }
 
-  private fetchUserId(username: string): void {
-    this.http
-      .get<{ content: number; errors: any; ok: boolean }>(`http://localhost:8080/api/users/${username}`)
-      .subscribe(
-        (response) => {
-          if (response.ok) {
-            this.userId = response.content;
-            this.getActiveCartId();
-          } else {
-            console.error('Error fetching user ID:', response.errors);
+  private getActiveCartId(): Promise<void> {
+    return new Promise((resolve, reject) => {
+      this.http
+        .get<{ content: { id: number }, errors: any, ok: boolean }>(`http://localhost:8080/api/carts/get-cart/${this.userId}`)
+        .subscribe(
+          (response) => {
+            if (response.ok) {
+              this.activeCartId = response.content.id;
+              console.log(this.activeCartId);
+              resolve();
+            } else {
+              reject('No active cart found');
+            }
+          },
+          (error) => {
+            console.error('Error fetching active cart ID:', error);
+            reject(error);
           }
-        },
-        (error) => {
-          console.error('Error fetching user ID:', error);
-        }
-      );
-  }
-
-  getActiveCartId(): void {
-    this.http
-      .get<{ content: { id: number }[] }>(`http://localhost:8080/api/carts/get-cart/${this.userId}`)
-      .subscribe(
-        (response) => {
-          if (response.content.length > 0) {
-            this.activeCartId = response.content[0].id;
-          }
-        },
-        (error) => {
-          console.error('Error fetching active cart ID:', error);
-        }
-      );
+        );
+    });
   }
 
   addToCart(product: any) {
-    const existingQuantity = this.cart.get(product) || 0;
-    this.cart.set(product, existingQuantity + 1);
-    this.updateTotalPrice();
-    this.cartSubject.next(this.cart);
-    this.addItemToCartOnServer(existingQuantity + 1, product.id);
+    this.initializationPromise.then(() => {
+      if (this.activeCartId === 0) {
+        console.error('Active cart ID is not initialized');
+        return;
+      }
+      const existingQuantity = this.cart.get(product) || 0;
+      this.cart.set(product, existingQuantity + 1);
+      this.updateTotalPrice();
+      this.cartSubject.next(this.cart);
+      this.addItemToCartOnServer(existingQuantity + 1, product.id);
+    }).catch((error) => {
+      console.error('Error adding to cart:', error);
+    });
   }
 
   increaseQuantity(product: any) {
-    const currentQuantity = this.cart.get(product) || 0;
-    this.cart.set(product, currentQuantity + 1);
-    this.updateTotalPrice();
-    this.cartSubject.next(this.cart);
-    this.addItemToCartOnServer(currentQuantity + 1, product.id);
+    this.initializationPromise.then(() => {
+      if (this.activeCartId === 0) {
+        console.error('Active cart ID is not initialized');
+        return;
+      }
+      const currentQuantity = this.cart.get(product) || 0;
+      this.cart.set(product, currentQuantity + 1);
+      this.updateTotalPrice();
+      this.cartSubject.next(this.cart);
+      this.addItemToCartOnServer(currentQuantity + 1, product.id);
+    }).catch((error) => {
+      console.error('Error increasing quantity:', error);
+    });
   }
 
   decreaseQuantity(product: any) {
-    const currentQuantity = this.cart.get(product) || 0;
-    if (currentQuantity > 1) {
-      this.cart.set(product, currentQuantity - 1);
-      this.updateTotalPrice();
-      this.cartSubject.next(this.cart);
-      this.addItemToCartOnServer(currentQuantity - 1, product.id);
-    } else {
-      this.removeFromCart(product);
-    }
+    this.initializationPromise.then(() => {
+      if (this.activeCartId === 0) {
+        console.error('Active cart ID is not initialized');
+        return;
+      }
+      const currentQuantity = this.cart.get(product) || 0;
+      if (currentQuantity > 1) {
+        this.cart.set(product, currentQuantity - 1);
+        this.updateTotalPrice();
+        this.cartSubject.next(this.cart);
+        this.addItemToCartOnServer(currentQuantity - 1, product.id);
+      } else {
+        this.removeFromCart(product);
+      }
+    }).catch((error) => {
+      console.error('Error decreasing quantity:', error);
+    });
   }
 
   removeFromCart(product: any) {
-    this.cart.delete(product);
-    this.updateTotalPrice();
-    this.cartSubject.next(this.cart);
-    this.removeItemFromCartOnServer(product.id);
+    this.initializationPromise.then(() => {
+      if (this.activeCartId === 0) {
+        console.error('Active cart ID is not initialized');
+        return;
+      }
+      this.cart.delete(product);
+      this.updateTotalPrice();
+      this.cartSubject.next(this.cart);
+      this.removeItemFromCartOnServer(product.id);
+    }).catch((error) => {
+      console.error('Error removing from cart:', error);
+    });
   }
 
   getProducts() {
@@ -162,6 +187,4 @@ export class CartService implements OnInit{
         }
       );
   }
-
-
 }
