@@ -26,7 +26,7 @@ export class CartService implements OnInit {
 
   ngOnInit(): void {}
 
-  private async initializeService() {
+  private async initializeService(): Promise<void> {
     try {
       this.decodeToken();
       await this.getActiveCartId();
@@ -73,15 +73,15 @@ export class CartService implements OnInit {
         .subscribe(
           (response) => {
             if (response.ok) {
-              const items = response.content.entries;
-              items.forEach((item: any) => {
-                this.cart.set(item.product, item.quantity);
+              const cartEntries = response.content.entries;
+              cartEntries.forEach((entry: any) => {
+                this.cart.set(entry.product, entry.quantity);
               });
               this.updateTotalPrice();
               this.cartSubject.next(this.cart);
               resolve();
             } else {
-              reject('Error loading cart items');
+              reject('Failed to load cart items');
             }
           },
           (error) => {
@@ -213,5 +213,30 @@ export class CartService implements OnInit {
           console.error('Error removing item from cart:', error);
         }
       );
+  }
+
+  placeOrder() {
+    this.initializationPromise.then(() => {
+      if (this.activeCartId === 0) {
+        console.error('Active cart ID is not initialized');
+        return;
+      }
+
+      const headers = new HttpHeaders().set('Authorization', `Bearer ${localStorage.getItem('token')}`);
+
+      this.http
+        .post(`http://localhost:8080/api/carts/${this.activeCartId}/place-order`, {}, { headers })
+        .subscribe(
+          (response) => {
+            console.log('Order placed successfully:', response);
+            // Handle success, perhaps clear the cart or navigate to an order confirmation page
+          },
+          (error) => {
+            console.error('Error placing order:', error);
+          }
+        );
+    }).catch((error) => {
+      console.error('Error placing order:', error);
+    });
   }
 }
