@@ -10,7 +10,8 @@ import { CartComponent } from './pages/cart/cart.component';
 import { AddProductComponent } from './pages/add-product/add-product.component';
 import { AddMediaComponent } from './pages/add-media/add-media.component';
 import { ProductManagementComponent } from './pages/product-management/product-management.component';
-import {authGuard} from "./service/auth/auth.guard"; // Import the auth guard
+import {authGuard} from "./service/auth/auth.guard";
+import {OrdersPharmacistComponent} from "./pages/orders-pharmacist/orders-pharmacist.component"; // Import the auth guard
 
 export const routes: Routes = [
   {
@@ -46,7 +47,10 @@ export const routes: Routes = [
       },
       {
         path: 'product-management', component: ProductManagementComponent, canActivate: [authGuard]
-      }
+      },
+      {
+        path: 'orders-pharmacist', component: OrdersPharmacistComponent, canActivate: [authGuard]
+      },
     ]
   }
 ];
