@@ -1,7 +1,7 @@
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Injectable, OnInit } from '@angular/core';
-import { BehaviorSubject } from 'rxjs';
-import jwt_decode, { jwtDecode } from 'jwt-decode';
+import {BehaviorSubject, from, Observable, switchMap} from 'rxjs';
+import  {jwtDecode} from 'jwt-decode';
 
 interface DecodedToken {
   sub: string; // Username
@@ -13,13 +13,13 @@ interface DecodedToken {
 })
 export class CartService implements OnInit {
   cart: Map<any, number> = new Map();
-  cartSubject = new BehaviorSubject<Map<any, number>>(this.cart);
+  private cartSubject = new BehaviorSubject<Map<any, number>>(this.cart);
   cart$ = this.cartSubject.asObservable();
   totalPrice: number = 0;
   activeCartId: number = 0;
   userId: number = 0;
   address: string = '';
-  requiresPrescription: boolean = false; // New property
+  requiresPrescription: boolean = false;
   private initializationPromise: Promise<void>;
 
   constructor(private http: HttpClient) {
@@ -54,7 +54,6 @@ export class CartService implements OnInit {
           (response) => {
             if (response.ok) {
               this.activeCartId = response.content.id;
-              console.log(this.activeCartId);
               resolve();
             } else {
               reject('No active cart found');
@@ -77,12 +76,12 @@ export class CartService implements OnInit {
             if (response.ok) {
               const cartEntries = response.content.entries;
               this.address = response.content.address;
-              this.requiresPrescription = false; // Reset the flag
+              this.requiresPrescription = false;
 
               cartEntries.forEach((entry: any) => {
                 this.cart.set(entry.product, entry.quantity);
                 if (entry.product.prescription) {
-                  this.requiresPrescription = true; // Set the flag if any product requires a prescription
+                  this.requiresPrescription = true;
                 }
               });
 
@@ -224,29 +223,17 @@ export class CartService implements OnInit {
       );
   }
 
-  placeOrder() {
-    this.initializationPromise.then(() => {
-      if (this.activeCartId === 0) {
-        console.error('Active cart ID is not initialized');
-        return;
-      }
+  placeOrder(): Observable<any> {
+    return from(this.initializationPromise).pipe(
+      switchMap(() => {
+        if (this.activeCartId === 0) {
+          throw new Error('Active cart ID is not initialized');
+        }
 
-      const headers = new HttpHeaders().set('Authorization', `Bearer ${localStorage.getItem('token')}`);
-
-      this.http
-        .post(`http://localhost:8080/api/orders/${this.activeCartId}/place-order`, {}, { headers })
-        .subscribe(
-          (response) => {
-            console.log('Order placed successfully:', response);
-            // Handle success, perhaps clear the cart or navigate to an order confirmation page
-          },
-          (error) => {
-            console.error('Error placing order:', error);
-          }
-        );
-    }).catch((error) => {
-      console.error('Error placing order:', error);
-    });
+        const headers = new HttpHeaders().set('Authorization', `Bearer ${localStorage.getItem('token')}`);
+        return this.http.post(`http://localhost:8080/api/orders/${this.activeCartId}/place-order`, {}, { headers });
+      })
+    );
   }
 
   updateAddress(address: string): void {
@@ -269,6 +256,7 @@ export class CartService implements OnInit {
         }
       );
   }
+
   uploadPrescription(file: File, date: string, doctor: string, customerId: number): Promise<void> {
     return new Promise((resolve, reject) => {
       const formattedDate = new Date(date).toLocaleDateString('en-GB'); // Format date as dd/MM/yyyy
@@ -299,6 +287,4 @@ export class CartService implements OnInit {
         );
     });
   }
-
-
 }
