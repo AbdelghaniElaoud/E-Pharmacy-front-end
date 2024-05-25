@@ -1,8 +1,9 @@
-import { Component } from '@angular/core';
+import {Component, OnInit} from '@angular/core';
 import { CartService } from "../../service/cart-service/cart-service.service";
-import { CurrencyPipe, KeyValuePipe, NgForOf, NgIf } from "@angular/common";
-import { FormsModule } from "@angular/forms";
-import { Router } from "@angular/router";
+import {CurrencyPipe, KeyValuePipe, NgForOf, NgIf} from "@angular/common";
+import {FormsModule} from "@angular/forms";
+import {Router} from "@angular/router";
+
 
 @Component({
   selector: 'app-cart',
@@ -18,8 +19,8 @@ import { Router } from "@angular/router";
   styleUrl: './cart.component.css'
 })
 export class CartComponent {
-  cartItems: Map<any, number> = new Map();
-  totalPrice: number = 0;
+  cartItems: Map<any, number>;
+  totalPrice: number;
   address: string = '';
   prescriptionItems: any[] = [];
   requiresPrescription: boolean = false;
@@ -29,6 +30,10 @@ export class CartComponent {
   customerId: number = 0;
 
   constructor(private cartService: CartService, private router: Router) {
+    this.cartItems = this.cartService.cart;
+    this.totalPrice = this.cartService.totalPrice;
+    this.address = this.cartService.address;
+    this.requiresPrescription = this.cartService.requiresPrescription;
     this.cartService.cart$.subscribe(cart => {
       this.cartItems = cart;
       this.totalPrice = this.cartService.totalPrice;
@@ -40,20 +45,25 @@ export class CartComponent {
   }
 
   increaseQuantity(product: any): void {
+    const currentQuantity = this.cartItems.get(product) || 0;
+    this.cartItems.set(product, currentQuantity + 1);
     this.cartService.increaseQuantity(product);
   }
 
   decreaseQuantity(product: any): void {
     const currentQuantity = this.cartItems.get(product) || 0;
     if (currentQuantity > 1) {
-      this.cartService.decreaseQuantity(product);
+      this.cartItems.set(product, currentQuantity - 1);
     } else {
       this.removeFromCart(product);
     }
+    this.cartService.decreaseQuantity(product);
   }
 
   removeFromCart(product: any): void {
+    this.cartItems.delete(product);
     this.cartService.removeFromCart(product);
+    this.refreshComponent();
   }
 
   isQuantityOne(product: any): boolean {
@@ -87,31 +97,25 @@ export class CartComponent {
 
     this.cartService.updateAddress(this.address); // Update the address before placing the order
     // Logic to handle prescription file upload if required
+    // Assuming there is a method in CartService to handle file upload
     if (this.prescriptionFile) {
       this.cartService.uploadPrescription(this.prescriptionFile, this.prescriptionDate, this.prescriptionDoctor, this.customerId)
         .then(() => {
-          this.cartService.placeOrder().subscribe(() => {
-            this.refreshComponent();
-          });
+          this.cartService.placeOrder();
+          this.refreshComponent();
         })
         .catch((error: any) => {
           console.error('Error uploading prescription:', error);
           alert(`Error uploading prescription: ${error.statusText}`);
         });
     } else {
-      this.cartService.placeOrder().subscribe(() => {
-        this.refreshComponent();
-      });
+      this.cartService.placeOrder();
     }
   }
-
   refreshComponent() {
-    this.cartService.cart$.subscribe(cart => {
-      this.cartItems = cart;
-      this.totalPrice = this.cartService.totalPrice;
-      this.address = this.cartService.address;
-      this.requiresPrescription = this.cartService.requiresPrescription;
-      this.updatePrescriptionItems();
+    const currentUrl = this.router.url;
+    this.router.navigateByUrl('/', { skipLocationChange: true }).then(() => {
+      this.router.navigate([currentUrl]);
     });
   }
 }
