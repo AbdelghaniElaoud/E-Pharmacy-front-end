@@ -1,33 +1,36 @@
-<div *ngFor="let item of cartItems | keyvalue">
-  <div>
-    <img [src]="item.key.medias[0]" alt="{{item.key.name}}" style="width: 50px; height: 50px;">
-    <span>{{item.key.name}}</span>
-    <span>{{item.key.price}}</span>
-    <span>{{item.value}}</span>
-    <button (click)="increaseQuantity(item.key)">+</button>
-    <button (click)="decreaseQuantity(item.key)" [disabled]="isQuantityOne(item.key)">-</button>
-    <button (click)="removeFromCart(item.key)">Remove</button>
+<div class="cart-container">
+  <div *ngFor="let item of cartItems | keyvalue" class="cart-item">
+    <div class="cart-item-details">
+      <img [src]="item.key.medias[0]" alt="{{item.key.name}}" class="item-image">
+      <span class="item-name">{{item.key.name}}</span>
+      <span class="item-price">{{item.key.price | currency}}</span>
+      <span class="item-quantity">{{item.value}}</span>
+      <button (click)="increaseQuantity(item.key)" class="quantity-button">+</button>
+      <button (click)="decreaseQuantity(item.key)" [disabled]="isQuantityOne(item.key)" class="quantity-button">-</button>
+      <button (click)="removeFromCart(item.key)" class="remove-button">Remove</button>
+    </div>
   </div>
+  <p class="total-price">Total Price: {{ totalPrice | currency }}</p>
+  <div class="address-container">
+    <label class="address-label">
+      Address:
+      <input type="text" [(ngModel)]="address" class="address-input"/>
+    </label>
+  </div>
+  <div *ngIf="requiresPrescription" class="prescription-container">
+    <h3>Upload Prescription</h3>
+    <label class="prescription-label">
+      Prescription File:
+      <input type="file" (change)="handlePrescriptionFileInput($event)" class="prescription-input"/>
+    </label>
+    <label class="prescription-label">
+      Prescription Date:
+      <input type="date" [(ngModel)]="prescriptionDate" class="prescription-input"/>
+    </label>
+    <label class="prescription-label">
+      Doctor Name:
+      <input type="text" [(ngModel)]="prescriptionDoctor" class="prescription-input"/>
+    </label>
+  </div>
+  <button (click)="placeOrder()" class="place-order-button">Place Order</button>
 </div>
-<p>Total Price: {{ totalPrice }}</p>
-<div>
-  <label>
-    Address:
-    <input type="text" [(ngModel)]="address" />
-  </label>
-</div>
-<div *ngIf="requiresPrescription">
-  <label>
-    Prescription File:
-    <input type="file" (change)="handlePrescriptionFileInput($event)" />
-  </label>
-  <label>
-    Prescription Date:
-    <input type="date" [(ngModel)]="prescriptionDate" />
-  </label>
-  <label>
-    Doctor Name:
-    <input type="text" [(ngModel)]="prescriptionDoctor" />
-  </label>
-</div>
-<button (click)="placeOrder()">Place Order</button>

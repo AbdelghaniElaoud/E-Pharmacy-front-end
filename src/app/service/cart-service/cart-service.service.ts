@@ -234,7 +234,7 @@ export class CartService implements OnInit {
       const headers = new HttpHeaders().set('Authorization', `Bearer ${localStorage.getItem('token')}`);
 
       this.http
-        .post(`http://localhost:8080/api/carts/${this.activeCartId}/place-order`, {}, { headers })
+        .post(`http://localhost:8080/api/orders/${this.activeCartId}/place-order`, {}, { headers })
         .subscribe(
           (response) => {
             console.log('Order placed successfully:', response);

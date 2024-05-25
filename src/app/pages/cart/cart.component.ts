@@ -1,6 +1,6 @@
 import { Component } from '@angular/core';
 import { CartService } from "../../service/cart-service/cart-service.service";
-import {KeyValuePipe, NgForOf, NgIf} from "@angular/common";
+import {CurrencyPipe, KeyValuePipe, NgForOf, NgIf} from "@angular/common";
 import {FormsModule} from "@angular/forms";
 
 @Component({
@@ -10,7 +10,8 @@ import {FormsModule} from "@angular/forms";
     NgForOf,
     KeyValuePipe,
     FormsModule,
-    NgIf
+    NgIf,
+    CurrencyPipe
   ],
   templateUrl: './cart.component.html',
   styleUrl: './cart.component.css'

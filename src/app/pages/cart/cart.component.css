@@ -1,0 +1,90 @@
+.cart-container {
+  width: 80%;
+  margin: 0 auto;
+  padding: 20px;
+  border: 1px solid #ddd;
+  border-radius: 8px;
+  background-color: #f9f9f9;
+}
+
+.cart-item {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 10px;
+  border-bottom: 1px solid #ddd;
+}
+
+.cart-item-details {
+  display: flex;
+  align-items: center;
+}
+
+.item-image {
+  width: 50px;
+  height: 50px;
+  margin-right: 10px;
+}
+
+.item-name {
+  flex: 1;
+  font-size: 16px;
+}
+
+.item-price, .item-quantity {
+  margin: 0 10px;
+}
+
+.quantity-button, .remove-button {
+  padding: 5px 10px;
+  margin-left: 5px;
+  background-color: #007bff;
+  border: none;
+  color: white;
+  border-radius: 4px;
+  cursor: pointer;
+}
+
+.quantity-button:disabled {
+  background-color: #ccc;
+}
+
+.remove-button {
+  background-color: #dc3545;
+}
+
+.total-price {
+  font-size: 18px;
+  text-align: right;
+  margin-top: 10px;
+}
+
+.address-container, .prescription-container {
+  margin-top: 20px;
+}
+
+.address-label, .prescription-label {
+  display: block;
+  margin-bottom: 10px;
+  font-weight: bold;
+}
+
+.address-input, .prescription-input {
+  width: 100%;
+  padding: 8px;
+  margin-top: 5px;
+  border: 1px solid #ccc;
+  border-radius: 4px;
+}
+
+.place-order-button {
+  display: block;
+  width: 100%;
+  padding: 10px;
+  margin-top: 20px;
+  background-color: #28a745;
+  border: none;
+  color: white;
+  border-radius: 4px;
+  cursor: pointer;
+}
