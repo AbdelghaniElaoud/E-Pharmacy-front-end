@@ -2,6 +2,7 @@ import { Component } from '@angular/core';
 import { CartService } from "../../service/cart-service/cart-service.service";
 import {CurrencyPipe, KeyValuePipe, NgForOf, NgIf} from "@angular/common";
 import {FormsModule} from "@angular/forms";
+import {Router} from "@angular/router";
 
 @Component({
   selector: 'app-cart',
@@ -27,7 +28,7 @@ export class CartComponent {
   prescriptionDoctor: string = '';
   customerId: number = 0;
 
-  constructor(private cartService: CartService) {
+  constructor(private cartService: CartService, private router: Router) {
     this.cartItems = this.cartService.cart;
     this.totalPrice = this.cartService.totalPrice;
     this.address = this.cartService.address;
@@ -99,6 +100,7 @@ export class CartComponent {
       this.cartService.uploadPrescription(this.prescriptionFile, this.prescriptionDate, this.prescriptionDoctor, this.customerId)
         .then(() => {
           this.cartService.placeOrder();
+          this.refreshComponent();
         })
         .catch((error: any) => {
           console.error('Error uploading prescription:', error);
@@ -107,5 +109,11 @@ export class CartComponent {
     } else {
       this.cartService.placeOrder();
     }
+  }
+  refreshComponent() {
+    const currentUrl = this.router.url;
+    this.router.navigateByUrl('/', { skipLocationChange: true }).then(() => {
+      this.router.navigate([currentUrl]);
+    });
   }
 }
