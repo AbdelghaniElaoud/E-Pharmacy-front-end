@@ -18,6 +18,8 @@ export class CartService implements OnInit {
   totalPrice: number = 0;
   activeCartId: number = 0;
   userId: number = 0;
+  address: string = '';
+  requiresPrescription: boolean = false; // New property
   private initializationPromise: Promise<void>;
 
   constructor(private http: HttpClient) {
@@ -74,9 +76,16 @@ export class CartService implements OnInit {
           (response) => {
             if (response.ok) {
               const cartEntries = response.content.entries;
+              this.address = response.content.address;
+              this.requiresPrescription = false; // Reset the flag
+
               cartEntries.forEach((entry: any) => {
                 this.cart.set(entry.product, entry.quantity);
+                if (entry.product.prescription) {
+                  this.requiresPrescription = true; // Set the flag if any product requires a prescription
+                }
               });
+
               this.updateTotalPrice();
               this.cartSubject.next(this.cart);
               resolve();
@@ -239,4 +248,57 @@ export class CartService implements OnInit {
       console.error('Error placing order:', error);
     });
   }
+
+  updateAddress(address: string): void {
+    const requestBody = {
+      line: address,
+      cartId: this.activeCartId
+    };
+
+    const headers = new HttpHeaders().set('Authorization', `Bearer ${localStorage.getItem('token')}`);
+
+    this.http.post('http://localhost:8080/api/carts/add-address', requestBody, { headers })
+      .subscribe(
+        (response) => {
+          console.log('Address updated successfully:', response);
+          this.address = address;
+          this.cartSubject.next(this.cart); // Notify subscribers of the updated address
+        },
+        (error) => {
+          console.error('Error updating address:', error);
+        }
+      );
+  }
+  uploadPrescription(file: File, date: string, doctor: string, customerId: number): Promise<void> {
+    return new Promise((resolve, reject) => {
+      const formattedDate = new Date(date).toLocaleDateString('en-GB'); // Format date as dd/MM/yyyy
+
+      const formData = new FormData();
+      formData.append('file', file);
+      formData.append('prescriptionRequestDTO', new Blob([JSON.stringify({ date: formattedDate, doctor, customerId })], { type: 'application/json' }));
+      formData.append('cartId', this.activeCartId.toString());
+
+      const token = localStorage.getItem('token');
+      if (!token) {
+        reject('No token found');
+        return;
+      }
+
+      const headers = new HttpHeaders().set('Authorization', `Bearer ${token}`);
+
+      this.http.post(`http://localhost:8080/api/carts/${this.activeCartId}/add-prescription`, formData, { headers })
+        .subscribe(
+          (response) => {
+            console.log('Prescription uploaded successfully:', response);
+            resolve();
+          },
+          (error) => {
+            console.error('Error uploading prescription:', error);
+            reject(error);
+          }
+        );
+    });
+  }
+
+
 }

@@ -10,3 +10,24 @@
   </div>
 </div>
 <p>Total Price: {{ totalPrice }}</p>
+<div>
+  <label>
+    Address:
+    <input type="text" [(ngModel)]="address" />
+  </label>
+</div>
+<div *ngIf="requiresPrescription">
+  <label>
+    Prescription File:
+    <input type="file" (change)="handlePrescriptionFileInput($event)" />
+  </label>
+  <label>
+    Prescription Date:
+    <input type="date" [(ngModel)]="prescriptionDate" />
+  </label>
+  <label>
+    Doctor Name:
+    <input type="text" [(ngModel)]="prescriptionDoctor" />
+  </label>
+</div>
+<button (click)="placeOrder()">Place Order</button>
