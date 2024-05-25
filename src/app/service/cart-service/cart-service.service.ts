@@ -30,6 +30,7 @@ export class CartService implements OnInit {
     try {
       this.decodeToken();
       await this.getActiveCartId();
+      await this.loadCartItems();
     } catch (error) {
       console.error('Error during initialization:', error);
     }
@@ -65,6 +66,32 @@ export class CartService implements OnInit {
     });
   }
 
+  private loadCartItems(): Promise<void> {
+    return new Promise((resolve, reject) => {
+      this.http
+        .get<{ content: any, errors: any, ok: boolean }>(`http://localhost:8080/api/carts/${this.activeCartId}`)
+        .subscribe(
+          (response) => {
+            if (response.ok) {
+              const items = response.content.entries;
+              items.forEach((item: any) => {
+                this.cart.set(item.product, item.quantity);
+              });
+              this.updateTotalPrice();
+              this.cartSubject.next(this.cart);
+              resolve();
+            } else {
+              reject('Error loading cart items');
+            }
+          },
+          (error) => {
+            console.error('Error loading cart items:', error);
+            reject(error);
+          }
+        );
+    });
+  }
+
   addToCart(product: any) {
     this.initializationPromise.then(() => {
       if (this.activeCartId === 0) {
@@ -72,11 +99,10 @@ export class CartService implements OnInit {
         return;
       }
       const existingQuantity = this.cart.get(product) || 0;
-      const newQuantity = existingQuantity + 1;
-      this.cart.set(product, newQuantity);
+      this.cart.set(product, existingQuantity + 1);
       this.updateTotalPrice();
       this.cartSubject.next(this.cart);
-      this.addItemToCartOnServer(newQuantity, product.id);
+      this.addItemToCartOnServer(existingQuantity + 1, product.id);
     }).catch((error) => {
       console.error('Error adding to cart:', error);
     });
@@ -89,11 +115,10 @@ export class CartService implements OnInit {
         return;
       }
       const currentQuantity = this.cart.get(product) || 0;
-      const newQuantity = currentQuantity + 1;
-      this.cart.set(product, newQuantity);
+      this.cart.set(product, currentQuantity + 1);
       this.updateTotalPrice();
       this.cartSubject.next(this.cart);
-      this.addItemToCartOnServer(newQuantity, product.id);
+      this.addItemToCartOnServer(currentQuantity + 1, product.id);
     }).catch((error) => {
       console.error('Error increasing quantity:', error);
     });
@@ -107,11 +132,10 @@ export class CartService implements OnInit {
       }
       const currentQuantity = this.cart.get(product) || 0;
       if (currentQuantity > 1) {
-        const newQuantity = currentQuantity - 1;
-        this.cart.set(product, newQuantity);
+        this.cart.set(product, currentQuantity - 1);
         this.updateTotalPrice();
         this.cartSubject.next(this.cart);
-        this.addItemToCartOnServer(newQuantity, product.id);
+        this.addItemToCartOnServer(currentQuantity - 1, product.id);
       } else {
         this.removeFromCart(product);
       }

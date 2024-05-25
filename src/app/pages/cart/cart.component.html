@@ -1,13 +1,11 @@
 <div *ngFor="let item of cartItems | keyvalue">
-  <h3>{{ item.key.name }}</h3>
-  <p>Price: {{ item.key.price }}</p>
-  <p>
-    Quantity:
-    <button (click)="decreaseQuantity(item.key)" [disabled]="isQuantityOne(item.key)">-</button>
-    {{ item.value }}
+  <div>
+    <h3>{{ item.key.name }}</h3>
+    <p>Price: {{ item.key.price }}</p>
+    <p>Quantity: {{ item.value }}</p>
     <button (click)="increaseQuantity(item.key)">+</button>
-  </p>
-  <button (click)="removeFromCart(item.key)">Remove</button>
+    <button (click)="decreaseQuantity(item.key)" [disabled]="isQuantityOne(item.key)">-</button>
+    <button (click)="removeFromCart(item.key)">Remove</button>
+  </div>
 </div>
-
-<p>Total Price: ${{ totalPrice }}</p>
+<p>Total Price: {{ totalPrice }}</p>

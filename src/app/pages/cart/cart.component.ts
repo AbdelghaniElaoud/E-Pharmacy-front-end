@@ -1,6 +1,6 @@
 import { Component } from '@angular/core';
-import {CartService} from "../../service/cart-service/cart-service.service";
-import {KeyValuePipe, NgForOf} from "@angular/common";
+import { CartService } from "../../service/cart-service/cart-service.service";
+import { KeyValuePipe, NgForOf } from "@angular/common";
 
 @Component({
   selector: 'app-cart',
@@ -17,8 +17,8 @@ export class CartComponent {
   totalPrice: number;
 
   constructor(private cartService: CartService) {
-    this.cartItems = this.cartService.cart;
-    this.totalPrice = this.cartService.totalPrice;
+    this.cartItems = new Map();
+    this.totalPrice = 0;
     this.cartService.cart$.subscribe(cart => {
       this.cartItems = cart;
       this.totalPrice = this.cartService.totalPrice;
@@ -26,23 +26,14 @@ export class CartComponent {
   }
 
   increaseQuantity(product: any): void {
-    const currentQuantity = this.cartItems.get(product) || 0;
-    this.cartItems.set(product, currentQuantity + 1);
     this.cartService.increaseQuantity(product);
   }
 
   decreaseQuantity(product: any): void {
-    const currentQuantity = this.cartItems.get(product) || 0;
-    if (currentQuantity > 1) {
-      this.cartItems.set(product, currentQuantity - 1);
-    } else {
-      this.removeFromCart(product);
-    }
     this.cartService.decreaseQuantity(product);
   }
 
   removeFromCart(product: any): void {
-    this.cartItems.delete(product);
     this.cartService.removeFromCart(product);
   }
 
