@@ -1,14 +1,17 @@
 import { Component, OnInit } from '@angular/core';
-import {NgForOf, NgIf} from "@angular/common";
+
+import { HttpClient } from '@angular/common/http';
 import {OrdersService} from "../../service/order/order.service";
+import {DatePipe, NgForOf, NgIf} from "@angular/common";
 
 @Component({
   selector: 'app-orders-pharmacist',
   standalone: true,
   templateUrl: './orders-pharmacist.component.html',
   imports: [
-    NgForOf,
-    NgIf
+    DatePipe,
+    NgIf,
+    NgForOf
   ],
   styleUrls: ['./orders-pharmacist.component.css']
 })
@@ -17,8 +20,10 @@ export class OrdersPharmacistComponent implements OnInit {
   filteredOrders: any[] = [];
   orderStatuses: string[] = ['INIT', 'CANCELED', 'CONFIRMED', 'IN_PROGRESS', 'DELIVERING', 'COMPLETED', 'ISSUE', 'PRESCRIPTION_REFUSED'];
   selectedStatus: string = '';
+  prescription: any = null;
+  showModal: boolean = false;
 
-  constructor(private ordersService: OrdersService) { }
+  constructor(private ordersService: OrdersService, private http: HttpClient) { }
 
   ngOnInit(): void {
     const pharmacistId = this.getPharmacistIdFromToken();
@@ -72,5 +77,24 @@ export class OrdersPharmacistComponent implements OnInit {
       default:
         return 'black';
     }
+  }
+
+  fetchPrescription(orderId: number): void {
+    this.http.get(`http://localhost:8080/api/orders/${orderId}/prescriptions`).subscribe(
+      (data: any) => {
+        this.prescription = data.length > 0 ? data[0] : null;
+        this.showModal = true;
+      },
+      error => {
+        console.error(error);
+        this.prescription = null;
+        this.showModal = true;
+      }
+    );
+  }
+
+  closeModal(): void {
+    this.showModal = false;
+    this.prescription = null;
   }
 }

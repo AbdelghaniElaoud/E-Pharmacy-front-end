@@ -21,11 +21,12 @@
         <th>Order Status</th>
         <th>Payment Status</th>
         <th>Products</th>
+        <th>Prescription</th>
       </tr>
       </thead>
       <tbody>
       <tr *ngIf="filteredOrders.length === 0">
-        <td colspan="6">No orders available.</td>
+        <td colspan="7">No orders available.</td>
       </tr>
       <tr *ngFor="let order of filteredOrders">
         <td>{{ order.id }}</td>
@@ -53,8 +54,28 @@
             </tbody>
           </table>
         </td>
+        <td>
+          <a href="#" (click)="fetchPrescription(order.id); $event.preventDefault();">
+            View Prescription
+          </a>
+        </td>
       </tr>
       </tbody>
     </table>
+  </div>
+
+  <div *ngIf="showModal" class="modal" (click)="closeModal()">
+    <div class="modal-content" (click)="$event.stopPropagation()">
+      <span class="close" (click)="closeModal()">&times;</span>
+      <div *ngIf="prescription; else noPrescription">
+        <h3>Prescription Details</h3>
+        <p>Doctor: {{ prescription.doctor }}</p>
+        <p>Date: {{ prescription.date | date:'longDate' }}</p>
+        <a [href]="prescription.link" download>Download Prescription</a>
+      </div>
+      <ng-template #noPrescription>
+        <p>No prescription available.</p>
+      </ng-template>
+    </div>
   </div>
 </div>
