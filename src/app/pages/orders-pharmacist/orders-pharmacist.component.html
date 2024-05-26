@@ -1,19 +1,60 @@
-<div *ngIf="orders.length > 0; else noOrders">
-  <div *ngFor="let order of orders">
-    <h3>Order ID: {{ order.id }}</h3>
-    <p>Total Price: {{ order.totalPrice }}</p>
-    <p>Address: {{ order.address }}</p>
-    <p>Order Status: {{ order.orderStatus }}</p>
-    <p>Payment Status: {{ order.paymentStatus }}</p>
-    <div *ngFor="let entry of order.entries">
-      <h4>Product: {{ entry.product.name }}</h4>
-      <p>Quantity: {{ entry.quantity }}</p>
-      <p>Price: {{ entry.basePrice }}</p>
-      <p>Total: {{ entry.totalPrice }}</p>
-    </div>
-    <hr>
+<div class="filter-container">
+  <h2>Filter Orders by Status</h2>
+  <div class="radio-group">
+    <label *ngFor="let status of orderStatuses">
+      <input type="radio" [value]="status" name="status" (change)="filterOrders(status)" [checked]="selectedStatus === status">
+      {{ status }}
+    </label>
+    <label>
+      <input type="radio" value="" name="status" (change)="filterOrders('')" [checked]="selectedStatus === ''">
+      All
+    </label>
+  </div>
+
+  <div class="table-container">
+    <table border="1">
+      <thead>
+      <tr>
+        <th>Order ID</th>
+        <th>Total Price</th>
+        <th>Address</th>
+        <th>Order Status</th>
+        <th>Payment Status</th>
+        <th>Products</th>
+      </tr>
+      </thead>
+      <tbody>
+      <tr *ngIf="filteredOrders.length === 0">
+        <td colspan="6">No orders available.</td>
+      </tr>
+      <tr *ngFor="let order of filteredOrders">
+        <td>{{ order.id }}</td>
+        <td>{{ order.totalPrice }}</td>
+        <td>{{ order.address }}</td>
+        <td [style.color]="getStatusColor(order.orderStatus)">{{ order.orderStatus }}</td>
+        <td>{{ order.paymentStatus }}</td>
+        <td>
+          <table border="1" class="inner-table">
+            <thead>
+            <tr>
+              <th>Product Name</th>
+              <th>Quantity</th>
+              <th>Price</th>
+              <th>Total</th>
+            </tr>
+            </thead>
+            <tbody>
+            <tr *ngFor="let entry of order.entries">
+              <td>{{ entry.product.name }}</td>
+              <td>{{ entry.quantity }}</td>
+              <td>{{ entry.basePrice }}</td>
+              <td>{{ entry.totalPrice }}</td>
+            </tr>
+            </tbody>
+          </table>
+        </td>
+      </tr>
+      </tbody>
+    </table>
   </div>
 </div>
-<ng-template #noOrders>
-  <p>No orders available.</p>
-</ng-template>

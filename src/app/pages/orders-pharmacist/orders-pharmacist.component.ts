@@ -14,15 +14,20 @@ import {OrdersService} from "../../service/order/order.service";
 })
 export class OrdersPharmacistComponent implements OnInit {
   orders: any[] = [];
-  pharmacistId: number | null = null;
+  filteredOrders: any[] = [];
+  orderStatuses: string[] = ['INIT', 'CANCELED', 'CONFIRMED', 'IN_PROGRESS', 'DELIVERING', 'COMPLETED', 'ISSUE', 'PRESCRIPTION_REFUSED'];
+  selectedStatus: string = '';
 
   constructor(private ordersService: OrdersService) { }
 
   ngOnInit(): void {
-    this.pharmacistId = this.getPharmacistIdFromToken();
-    if (this.pharmacistId !== null) {
-      this.ordersService.getOrdersByPharmacistId(this.pharmacistId).subscribe(
-        data => this.orders = data,
+    const pharmacistId = this.getPharmacistIdFromToken();
+    if (pharmacistId !== null) {
+      this.ordersService.getOrdersByPharmacistId(pharmacistId).subscribe(
+        data => {
+          this.orders = data;
+          this.filteredOrders = data; // Initially, all orders are shown
+        },
         error => console.error(error)
       );
     }
@@ -35,5 +40,37 @@ export class OrdersPharmacistComponent implements OnInit {
       return payload.id;
     }
     return null;
+  }
+
+  filterOrders(status: string): void {
+    this.selectedStatus = status;
+    if (status) {
+      this.filteredOrders = this.orders.filter(order => order.orderStatus === status);
+    } else {
+      this.filteredOrders = this.orders;
+    }
+  }
+
+  getStatusColor(status: string): string {
+    switch (status) {
+      case 'INIT':
+        return 'gray';
+      case 'CANCELED':
+        return 'red';
+      case 'CONFIRMED':
+        return 'green';
+      case 'IN_PROGRESS':
+        return 'orange';
+      case 'DELIVERING':
+        return 'blue';
+      case 'COMPLETED':
+        return 'purple';
+      case 'ISSUE':
+        return 'darkred';
+      case 'PRESCRIPTION_REFUSED':
+        return 'brown';
+      default:
+        return 'black';
+    }
   }
 }

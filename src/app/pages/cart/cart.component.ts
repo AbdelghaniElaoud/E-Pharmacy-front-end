@@ -85,6 +85,7 @@ export class CartComponent {
   }
 
   placeOrder(): void {
+    console.log('placeOrder method called');
     if (!this.address) {
       alert('Please enter your address.');
       return;
@@ -95,23 +96,38 @@ export class CartComponent {
       return;
     }
 
-    this.cartService.updateAddress(this.address); // Update the address before placing the order
-    // Logic to handle prescription file upload if required
-    // Assuming there is a method in CartService to handle file upload
+    this.cartService.updateAddress(this.address);
+
     if (this.prescriptionFile) {
       this.cartService.uploadPrescription(this.prescriptionFile, this.prescriptionDate, this.prescriptionDoctor, this.customerId)
         .then(() => {
-          this.cartService.placeOrder();
-          this.refreshComponent();
+          this.cartService.placeOrder().subscribe(
+            response => {
+              console.log('Order placed successfully:', response);
+              this.refreshComponent();
+            },
+            error => {
+              console.error('Error placing order:', error);
+            }
+          );
         })
         .catch((error: any) => {
           console.error('Error uploading prescription:', error);
           alert(`Error uploading prescription: ${error.statusText}`);
         });
     } else {
-      this.cartService.placeOrder();
+      this.cartService.placeOrder().subscribe(
+        response => {
+          console.log('Order placed successfully:', response);
+          this.refreshComponent();
+        },
+        error => {
+          console.error('Error placing order:', error);
+        }
+      );
     }
   }
+
   refreshComponent() {
     const currentUrl = this.router.url;
     this.router.navigateByUrl('/', { skipLocationChange: true }).then(() => {

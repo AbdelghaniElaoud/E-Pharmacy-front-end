@@ -1,6 +1,6 @@
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Injectable, OnInit } from '@angular/core';
-import {BehaviorSubject, from, Observable, switchMap} from 'rxjs';
+import {BehaviorSubject, catchError, from, map, Observable, switchMap} from 'rxjs';
 import  {jwtDecode} from 'jwt-decode';
 
 interface DecodedToken {
@@ -231,7 +231,17 @@ export class CartService implements OnInit {
         }
 
         const headers = new HttpHeaders().set('Authorization', `Bearer ${localStorage.getItem('token')}`);
-        return this.http.post(`http://localhost:8080/api/orders/${this.activeCartId}/place-order`, {}, { headers });
+        console.log('Sending place order request...');
+        return this.http.post(`http://localhost:8080/api/orders/${this.activeCartId}/place-order`, {}, { headers }).pipe(
+          map(response => {
+            console.log('Order placed successfully:', response);
+            return response;
+          }),
+          catchError(error => {
+            console.error('Error placing order:', error);
+            throw error;
+          })
+        );
       })
     );
   }
