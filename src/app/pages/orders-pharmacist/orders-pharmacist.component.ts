@@ -122,6 +122,7 @@ export class OrdersPharmacistComponent implements OnInit {
         console.log('Order confirmed:', response);
         // Ensure the response structure is correct
         if (response && response.content) {
+          this.updateOrderStatus(orderId, 'CONFIRMED');
           this.generatePDFReceipt(response.content);
         } else {
           console.error('Invalid response structure:', response);

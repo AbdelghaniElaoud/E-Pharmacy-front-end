@@ -61,8 +61,12 @@
           </a>
         </td>
         <td (click)="$event.stopPropagation()">
-          <button (click)="confirmOrder(order.id)">Confirm</button>
-          <button (click)="cancelOrder(order.id)">Cancel</button>
+          <button (click)="confirmOrder(order.id)">
+            <i class="fas fa-check"></i>
+          </button>
+          <button (click)="cancelOrder(order.id)">
+            <i class="fas fa-times"></i>
+          </button>
         </td>
       </tr>
       </tbody>
