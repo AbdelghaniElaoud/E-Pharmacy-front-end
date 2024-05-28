@@ -15,24 +15,25 @@
     <table border="1">
       <thead>
       <tr>
-        <th>Order ID</th>
         <th>Total Price</th>
         <th>Address</th>
         <th>Order Status</th>
         <th>Payment Status</th>
         <th>Products</th>
         <th>Prescription</th>
+        <th>Actions</th>
       </tr>
       </thead>
       <tbody>
       <tr *ngIf="filteredOrders.length === 0">
         <td colspan="7">No orders available.</td>
       </tr>
-      <tr *ngFor="let order of filteredOrders">
-        <td>{{ order.id }}</td>
+      <tr *ngFor="let order of filteredOrders" (click)="onRowClick(order)">
         <td>{{ order.totalPrice }}</td>
         <td>{{ order.address }}</td>
-        <td [style.color]="getStatusColor(order.orderStatus)">{{ order.orderStatus }}</td>
+        <td class="bold-text" [style.color]="getStatusColor(order.orderStatus)">
+          {{ order.orderStatus }}
+        </td>
         <td>{{ order.paymentStatus }}</td>
         <td>
           <table border="1" class="inner-table">
@@ -54,24 +55,54 @@
             </tbody>
           </table>
         </td>
-        <td>
+        <td (click)="$event.stopPropagation()">
           <a href="#" (click)="fetchPrescription(order.id); $event.preventDefault();">
             View Prescription
           </a>
+        </td>
+        <td (click)="$event.stopPropagation()">
+          <button (click)="confirmOrder(order.id)">Confirm</button>
+          <button (click)="cancelOrder(order.id)">Cancel</button>
         </td>
       </tr>
       </tbody>
     </table>
   </div>
 
-  <div *ngIf="showModal" class="modal" (click)="closeModal()">
+  <!-- Customer and Delivery Man Modal -->
+  <div *ngIf="showOrderModal" class="modal" (click)="closeModal()">
     <div class="modal-content" (click)="$event.stopPropagation()">
       <span class="close" (click)="closeModal()">&times;</span>
+      <div *ngIf="selectedOrder; else noOrder" class="card-container">
+        <div class="card">
+          <h3>Customer Details</h3>
+          <p>Username: {{ selectedOrder.customer.username }}</p>
+          <p>Email: {{ selectedOrder.customer.email }}</p>
+          <p>Phone: {{ selectedOrder.customer.phone }}</p>
+          <p>Address: {{ selectedOrder.customer.address }}</p>
+        </div>
+        <div class="card">
+          <h3>Delivery Man Details</h3>
+          <p>Username: {{ selectedOrder.deliveryMan.username }}</p>
+          <p>Email: {{ selectedOrder.deliveryMan.email }}</p>
+          <p>Phone: {{ selectedOrder.deliveryMan.phone }}</p>
+        </div>
+      </div>
+      <ng-template #noOrder>
+        <p>No order details available.</p>
+      </ng-template>
+    </div>
+  </div>
+
+  <!-- Prescription Modal -->
+  <div *ngIf="showPrescriptionModal" class="modal" (click)="closePrescriptionModal()">
+    <div class="modal-content" (click)="$event.stopPropagation()">
+      <span class="close" (click)="closePrescriptionModal()">&times;</span>
       <div *ngIf="prescription; else noPrescription">
         <h3>Prescription Details</h3>
         <p>Doctor: {{ prescription.doctor }}</p>
         <p>Date: {{ prescription.date | date:'longDate' }}</p>
-        <a [href]="prescription.link" download>Download Prescription</a>
+        <a [href]="prescription.link" download target="_blank">Open Prescription</a>
       </div>
       <ng-template #noPrescription>
         <p>No prescription available.</p>
