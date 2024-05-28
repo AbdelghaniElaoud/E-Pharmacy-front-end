@@ -12,7 +12,7 @@ import { AddMediaComponent } from './pages/add-media/add-media.component';
 import { ProductManagementComponent } from './pages/product-management/product-management.component';
 import {authGuard} from "./service/auth/auth.guard";
 import {OrdersPharmacistComponent} from "./pages/orders-pharmacist/orders-pharmacist.component";
-import {OrdersDeliveryComponent} from "./pages/orders-delivery/orders-delivery.component"; // Import the auth guard
+import {OrdersDeliveryComponent} from "./pages/orders-delivery/orders-delivery.component";
 
 export const routes: Routes = [
   {
@@ -51,7 +51,8 @@ export const routes: Routes = [
       },
       {
         path: 'orders-pharmacist', component: OrdersPharmacistComponent, canActivate: [authGuard]
-      },{
+      },
+      {
         path: 'orders-delivery', component: OrdersDeliveryComponent, canActivate: [authGuard]
       },
     ]

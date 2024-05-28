@@ -5,11 +5,8 @@
     <table>
       <thead>
       <tr>
-        <th>Order ID</th>
         <th>Total Price</th>
         <th>Address</th>
-        <th>Order Status</th>
-        <th>Payment Status</th>
         <th>Products</th>
         <th>Actions</th>
       </tr>
@@ -19,11 +16,8 @@
         <td colspan="7">No orders available.</td>
       </tr>
       <tr *ngFor="let order of orders">
-        <td>{{ order.id }}</td>
         <td>{{ order.totalPrice | currency }}</td>
         <td>{{ order.address }}</td>
-        <td class="order-status" [ngClass]="getStatusClass(order.orderStatus)">{{ order.orderStatus }}</td>
-        <td>{{ order.paymentStatus }}</td>
         <td>
           <table class="inner-table">
             <thead>
