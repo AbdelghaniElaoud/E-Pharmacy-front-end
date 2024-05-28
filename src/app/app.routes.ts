@@ -13,6 +13,7 @@ import { ProductManagementComponent } from './pages/product-management/product-m
 import {authGuard} from "./service/auth/auth.guard";
 import {OrdersPharmacistComponent} from "./pages/orders-pharmacist/orders-pharmacist.component";
 import {OrdersDeliveryComponent} from "./pages/orders-delivery/orders-delivery.component";
+import {ProfileComponent} from "./pages/profile/profile.component";
 
 export const routes: Routes = [
   {
@@ -55,6 +56,7 @@ export const routes: Routes = [
       {
         path: 'orders-delivery', component: OrdersDeliveryComponent, canActivate: [authGuard]
       },
+      { path: 'profile/:userId', component: ProfileComponent }
     ]
   }
 ];

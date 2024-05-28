@@ -1,0 +1,9 @@
+<div class="profile-container" *ngIf="profile">
+  <h2>{{ profile.firstName }} {{ profile.lastName }}</h2>
+  <img [src]="profile.profilePhoto.link" [alt]="profile.profilePhoto.altText" class="profile-photo" />
+  <div class="profile-info">
+    <p><strong>Username:</strong> <span>{{ profile.username }}</span></p>
+    <p><strong>Status:</strong> <span>{{ profile.status }}</span></p>
+    <p><strong>Joined:</strong> <span>{{ profile.createdAt | date: 'longDate' }}</span></p>
+  </div>
+</div>
