@@ -1,0 +1,110 @@
+.orders-delivery-container {
+  padding: 20px;
+  font-family: Arial, sans-serif;
+}
+
+h2 {
+  color: #333;
+  margin-bottom: 20px;
+  font-size: 24px;
+}
+
+.table-container {
+  overflow-x: auto;
+}
+
+table {
+  width: 100%;
+  border-collapse: collapse;
+  margin-bottom: 20px;
+}
+
+th, td {
+  padding: 12px;
+  border: 1px solid #ddd;
+  text-align: left;
+}
+
+th {
+  background-color: #f4f4f4;
+}
+
+td {
+  background-color: #fff;
+}
+
+.inner-table th, .inner-table td {
+  padding: 8px;
+  border: 1px solid #ddd;
+}
+
+.bold-text {
+  font-weight: bold;
+}
+
+.order-status {
+  font-weight: bold;
+}
+
+.order-status.confirmed {
+  color: green;
+}
+
+.order-status.canceled {
+  color: red;
+}
+
+.order-status.init {
+  color: gray;
+}
+
+.order-status.in-progress {
+  color: orange;
+}
+
+.order-status.delivering {
+  color: blue;
+}
+
+.order-status.completed {
+  color: purple;
+}
+
+.order-status.issue {
+  color: darkred;
+}
+
+.order-status.prescription-refused {
+  color: brown;
+}
+
+.actions button {
+  border: none;
+  padding: 8px 12px;
+  margin-right: 8px;
+  font-size: 14px;
+  cursor: pointer;
+  border-radius: 4px;
+}
+
+.actions button i {
+  margin-right: 4px;
+}
+
+.actions .delivered {
+  background-color: #28a745;
+  color: white;
+}
+
+.actions .issue {
+  background-color: #dc3545;
+  color: white;
+}
+
+.actions .delivered:hover {
+  background-color: #218838;
+}
+
+.actions .issue:hover {
+  background-color: #c82333;
+}
