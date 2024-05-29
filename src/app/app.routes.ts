@@ -14,6 +14,7 @@ import {authGuard} from "./service/auth/auth.guard";
 import {OrdersPharmacistComponent} from "./pages/orders-pharmacist/orders-pharmacist.component";
 import {OrdersDeliveryComponent} from "./pages/orders-delivery/orders-delivery.component";
 import {ProfileComponent} from "./pages/profile/profile.component";
+import {ManageUsersComponent} from "./pages/manage-users/manage-users.component";
 
 export const routes: Routes = [
   {
@@ -56,7 +57,11 @@ export const routes: Routes = [
       {
         path: 'orders-delivery', component: OrdersDeliveryComponent, canActivate: [authGuard]
       },
-      { path: 'profile/:userId', component: ProfileComponent }
+      {
+        path: 'profile/:userId', component: ProfileComponent
+      }
+      ,
+      { path: 'manage-users', component: ManageUsersComponent }
     ]
   }
 ];

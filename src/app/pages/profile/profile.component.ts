@@ -33,7 +33,6 @@ export class ProfileComponent implements OnInit {
     private route: ActivatedRoute,
     private http: HttpClient
   ) {
-    this.profileService = new ProfileService();
   }
 
   ngOnInit(): void {

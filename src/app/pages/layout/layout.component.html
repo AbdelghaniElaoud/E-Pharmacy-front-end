@@ -12,6 +12,7 @@
         <li><a routerLink="/orders-pharmacist" routerLinkActive="active">Orders</a></li>
         <li><a routerLink="/orders-delivery" routerLinkActive="active">Orders Delivery</a></li>
         <li><a [routerLink]="['/profile', userId]" routerLinkActive="active">Profile</a></li>
+        <li><a routerLink="/manage-users" routerLinkActive="active">Manage Users</a></li>
         <li><a (click)="logOut()">Logout</a></li>
         <li><a routerLink="/cart">Cart ({{ cartItemCount }})</a></li>
       </ul>
