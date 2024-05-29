@@ -13,5 +13,26 @@
     <p *ngIf="accountAgeDays === 0 && accountAgeHours !== null">
       <strong>Account Age:</strong> <span>{{ accountAgeHours }} hours</span>
     </p>
+    <button (click)="editProfile()">Edit Profile</button>
+  </div>
+
+  <div *ngIf="isEditing" class="edit-form">
+    <h3>Edit Profile</h3>
+    <form (ngSubmit)="onSubmit()" #editProfileForm="ngForm">
+      <div>
+        <label for="firstName">First Name:</label>
+        <input type="text" id="firstName" [(ngModel)]="editData.firstName" name="firstName" required>
+      </div>
+      <div>
+        <label for="lastName">Last Name:</label>
+        <input type="text" id="lastName" [(ngModel)]="editData.lastName" name="lastName" required>
+      </div>
+      <div>
+        <label for="email">Email:</label>
+        <input type="email" id="email" [(ngModel)]="editData.email" name="email" required>
+      </div>
+      <button type="submit">Save Changes</button>
+      <button type="button" (click)="cancelEdit()">Cancel</button>
+    </form>
   </div>
 </div>

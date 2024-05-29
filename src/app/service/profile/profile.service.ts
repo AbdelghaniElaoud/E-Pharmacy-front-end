@@ -11,9 +11,14 @@ export class ProfileService {
 
   constructor(private http: HttpClient) {}
 
+
   getProfile(userId: number): Observable<any> {
     return this.http.get<any>(`${this.baseUrl}/${userId}/get-profile`).pipe(
       map(response => response.content)
     );
+  }
+  updateProfile(userData: any): Observable<any> {
+    const url = 'http://localhost:8080/api/users/update-profile';
+    return this.http.post<any>(url, userData);
   }
 }
