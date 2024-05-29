@@ -3,7 +3,15 @@
   <img [src]="profile.profilePhoto.link" [alt]="profile.profilePhoto.altText" class="profile-photo" />
   <div class="profile-info">
     <p><strong>Username:</strong> <span>{{ profile.username }}</span></p>
+    <p><strong>First Name:</strong> <span>{{ profile.firstName }}</span></p>
+    <p><strong>Last Name:</strong> <span>{{ profile.lastName }}</span></p>
+    <p><strong>Email:</strong> <span>{{ profile.email }}</span></p>
     <p><strong>Status:</strong> <span>{{ profile.status }}</span></p>
-    <p><strong>Joined:</strong> <span>{{ profile.createdAt | date: 'longDate' }}</span></p>
+    <p *ngIf="accountAgeDays !== null && accountAgeDays > 0">
+      <strong>Account Age:</strong> <span>{{ accountAgeDays }} days</span>
+    </p>
+    <p *ngIf="accountAgeDays === 0 && accountAgeHours !== null">
+      <strong>Account Age:</strong> <span>{{ accountAgeHours }} hours</span>
+    </p>
   </div>
 </div>
