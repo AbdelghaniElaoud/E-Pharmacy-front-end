@@ -1,7 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { NgClass, NgForOf} from "@angular/common";
-import {FormsModule} from "@angular/forms";
+import { FormsModule } from "@angular/forms";
 
 @Component({
   selector: 'app-manage-users',
@@ -20,6 +20,7 @@ export class ManageUsersComponent implements OnInit {
   filteredUsers: any[] = [];
   roles: string[] = ['admin', 'delivery', 'pharmacist', 'customer']; // Add your roles here
   selectedRole: string = '';
+  searchQuery: string = '';
   newUser: any = {
     username: '',
     firstName: '',
@@ -58,11 +59,19 @@ export class ManageUsersComponent implements OnInit {
 
   filterUsersByRole(role: string): void {
     this.selectedRole = role;
-    if (role) {
-      this.filteredUsers = this.users.filter(user => user.role === role);
-    } else {
-      this.filteredUsers = this.users;
-    }
+    this.searchUsers(); // Reapply search filter whenever role changes
+  }
+
+  searchUsers(): void {
+    this.filteredUsers = this.users.filter(user => {
+      return (
+        (this.selectedRole === '' || user.role === this.selectedRole) &&
+        (user.username.toLowerCase().includes(this.searchQuery.toLowerCase()) ||
+          user.firstName.toLowerCase().includes(this.searchQuery.toLowerCase()) ||
+          user.lastName.toLowerCase().includes(this.searchQuery.toLowerCase()) ||
+          user.email.toLowerCase().includes(this.searchQuery.toLowerCase()))
+      );
+    });
   }
 
   toggleUserStatus(user: any): void {
@@ -94,7 +103,6 @@ export class ManageUsersComponent implements OnInit {
   }
 
   openModal(): void {
-
     this.newUser = {
       username: '',
       firstName: '',

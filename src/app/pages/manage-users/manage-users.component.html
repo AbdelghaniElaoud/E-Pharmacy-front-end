@@ -12,6 +12,11 @@
     </label>
   </div>
 
+  <!-- Search input field -->
+  <div class="search-group">
+    <input type="text" placeholder="Search by username, full name, or email" [(ngModel)]="searchQuery" (input)="searchUsers()">
+  </div>
+
   <!-- Button to open the modal -->
   <button type="button" class="btn btn-primary" (click)="openModal()">Add User</button>
 
