@@ -14,6 +14,9 @@ import {NgClass, NgForOf} from "@angular/common";
 })
 export class ManageUsersComponent implements OnInit {
   users: any[] = [];
+  filteredUsers: any[] = [];
+  roles: string[] = ['admin', 'delivery', 'pharmacist', 'customer']; // Add your roles here
+  selectedRole: string = '';
 
   constructor(private http: HttpClient) {}
 
@@ -28,6 +31,7 @@ export class ManageUsersComponent implements OnInit {
       this.http.get('http://localhost:8080/api/users/non-admins', { headers }).subscribe(
         (response: any) => {
           this.users = response.content;
+          this.filteredUsers = this.users; // Initially show all users
           console.log('Users data:', this.users);
         },
         error => {
@@ -36,6 +40,15 @@ export class ManageUsersComponent implements OnInit {
       );
     } else {
       console.error('No token found, user is not authenticated');
+    }
+  }
+
+  filterUsersByRole(role: string): void {
+    this.selectedRole = role;
+    if (role) {
+      this.filteredUsers = this.users.filter(user => user.role === role);
+    } else {
+      this.filteredUsers = this.users;
     }
   }
 

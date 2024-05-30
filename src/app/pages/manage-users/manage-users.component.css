@@ -2,33 +2,13 @@
   margin: 20px;
 }
 
-.users-table {
-  width: 100%;
-  border-collapse: collapse;
+.filter-group {
+  margin-bottom: 20px;
 }
 
-.users-table th,
-.users-table td {
-  border: 1px solid #ddd;
-  padding: 8px;
-  text-align: left;
-}
-
-.users-table th {
-  background-color: #f2f2f2;
-}
-
-.profile-photo {
-  width: 50px;
-  height: 50px;
-  border-radius: 50%;
-}
-
-button {
-  margin-right: 5px;
-}
-.manage-users-container {
-  margin: 20px;
+.filter-group label {
+  margin-right: 10px;
+  cursor: pointer;
 }
 
 .users-table {
@@ -69,4 +49,9 @@ button {
 /* Add cursor pointer on row hover */
 .users-table tr:hover {
   cursor: pointer;
+}
+
+/* Add styles for radio buttons */
+.filter-group input[type="radio"] {
+  margin-right: 5px;
 }
