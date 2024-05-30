@@ -26,7 +26,7 @@ export class ManageUsersComponent implements OnInit {
     lastName: '',
     email: '',
     password: '',
-    role: 'pharmacist',
+    role: '',
     phone: '',
     address: ''
   };
@@ -94,6 +94,17 @@ export class ManageUsersComponent implements OnInit {
   }
 
   openModal(): void {
+
+    this.newUser = {
+      username: '',
+      firstName: '',
+      lastName: '',
+      email: '',
+      password: '',
+      role: '',
+      phone: '',
+      address: ''
+    };
     const modal = document.getElementById('userModal');
     if (modal) {
       modal.style.display = 'block';
@@ -121,7 +132,7 @@ export class ManageUsersComponent implements OnInit {
       password: this.newUser.password,
       role: [this.newUser.role],
       phone: this.newUser.phone,
-      address: this.newUser.address || '' // Ensure address is sent as an empty string if not provided
+      address: ''
     };
 
     const token = localStorage.getItem('token');
@@ -130,8 +141,8 @@ export class ManageUsersComponent implements OnInit {
       this.http.post('http://localhost:8080/api/auth/signup', newUserPayload, { headers }).subscribe(
         (response: any) => {
           console.log('User created:', response);
-          this.fetchUsers(); // Refresh the user list
-          this.closeModal(); // Close the modal after saving
+          this.fetchUsers();
+          this.closeModal();
         },
         error => {
           console.error('Error creating user', error);
