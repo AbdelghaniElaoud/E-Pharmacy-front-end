@@ -11,6 +11,19 @@
   cursor: pointer;
 }
 
+.search-group {
+  margin-bottom: 20px;
+}
+
+.search-group input[type="text"] {
+  padding: 10px;
+  font-size: 14px;
+  width: 100%;
+  max-width: 400px;
+  border: 1px solid #ddd;
+  border-radius: 4px;
+}
+
 .users-table {
   width: 100%;
   border-collapse: collapse;
@@ -49,6 +62,7 @@ button {
 /* Add cursor pointer on row hover */
 .users-table tr:hover {
   cursor: pointer;
+  background-color: #f1f1f1;
 }
 
 /* Add styles for radio buttons */
