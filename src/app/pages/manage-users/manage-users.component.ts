@@ -1,13 +1,14 @@
 import { Component, OnInit } from '@angular/core';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
-import {NgForOf} from "@angular/common";
+import {NgClass, NgForOf} from "@angular/common";
 
 @Component({
   selector: 'app-manage-users',
   standalone: true,
   templateUrl: './manage-users.component.html',
   imports: [
-    NgForOf
+    NgForOf,
+    NgClass
   ],
   styleUrls: ['./manage-users.component.css']
 })
@@ -38,11 +39,31 @@ export class ManageUsersComponent implements OnInit {
     }
   }
 
-  editUser(user: any) {
+  toggleUserStatus(user: any): void {
+    const token = localStorage.getItem('token');
+    if (token) {
+      const headers = new HttpHeaders().set('Authorization', `Bearer ${token}`);
+      const url = `http://localhost:8080/api/users/${user.id}/activate`;
 
+      this.http.post(url, {}, { headers }).subscribe(
+        (response: any) => {
+          console.log('User status updated:', response);
+          user.status = (user.status === 'ACTIVE') ? 'INACTIVE' : 'ACTIVE';
+        },
+        error => {
+          console.error('Error updating user status', error);
+        }
+      );
+    } else {
+      console.error('No token found, user is not authenticated');
+    }
   }
 
-  /*deleteUser(id) {
+  editUser(user: any): void {
+    // Implement edit user functionality
+  }
 
-  }*/
+  deleteUser(userId: number): void {
+    // Implement delete user functionality
+  }
 }

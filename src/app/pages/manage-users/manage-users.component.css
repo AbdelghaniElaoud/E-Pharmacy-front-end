@@ -27,3 +27,46 @@
 button {
   margin-right: 5px;
 }
+.manage-users-container {
+  margin: 20px;
+}
+
+.users-table {
+  width: 100%;
+  border-collapse: collapse;
+}
+
+.users-table th,
+.users-table td {
+  border: 1px solid #ddd;
+  padding: 8px;
+  text-align: left;
+}
+
+.users-table th {
+  background-color: #f2f2f2;
+}
+
+.profile-photo {
+  width: 50px;
+  height: 50px;
+  border-radius: 50%;
+}
+
+button {
+  margin-right: 5px;
+}
+
+/* Add styles for active and inactive rows */
+.active {
+  background-color: #d4edda; /* Light green */
+}
+
+.inactive {
+  background-color: #f8d7da; /* Light red */
+}
+
+/* Add cursor pointer on row hover */
+.users-table tr:hover {
+  cursor: pointer;
+}

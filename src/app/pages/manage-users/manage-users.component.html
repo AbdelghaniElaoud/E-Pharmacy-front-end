@@ -8,20 +8,15 @@
       <th>Full Name</th>
       <th>Email</th>
       <th>Status</th>
-      <th>Actions</th>
     </tr>
     </thead>
     <tbody>
-    <tr *ngFor="let user of users">
+    <tr *ngFor="let user of users" (click)="toggleUserStatus(user)" [ngClass]="{'active': user.status === 'ACTIVE', 'inactive': user.status === 'INACTIVE'}">
       <td><img [src]="user.profilePhoto.link" [alt]="user.profilePhoto.altText" class="profile-photo" /></td>
       <td>{{ user.username }}</td>
       <td>{{ user.firstName }} {{ user.lastName }}</td>
       <td>{{ user.email }}</td>
       <td>{{ user.status }}</td>
-      <td>
-<!--        <button (click)="editUser(user)">Edit</button>-->
-<!--        <button (click)="deleteUser(user.id)">Delete</button>-->
-      </td>
     </tr>
     </tbody>
   </table>
