@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
-import {NgClass, NgForOf} from "@angular/common";
+import { NgClass, NgForOf} from "@angular/common";
+import {FormsModule} from "@angular/forms";
 
 @Component({
   selector: 'app-manage-users',
@@ -8,7 +9,9 @@ import {NgClass, NgForOf} from "@angular/common";
   templateUrl: './manage-users.component.html',
   imports: [
     NgForOf,
-    NgClass
+    NgClass,
+    FormsModule,
+    FormsModule
   ],
   styleUrls: ['./manage-users.component.css']
 })
@@ -17,6 +20,16 @@ export class ManageUsersComponent implements OnInit {
   filteredUsers: any[] = [];
   roles: string[] = ['admin', 'delivery', 'pharmacist', 'customer']; // Add your roles here
   selectedRole: string = '';
+  newUser: any = {
+    username: '',
+    firstName: '',
+    lastName: '',
+    email: '',
+    password: '',
+    role: 'pharmacist',
+    phone: '',
+    address: ''
+  };
 
   constructor(private http: HttpClient) {}
 
@@ -78,5 +91,54 @@ export class ManageUsersComponent implements OnInit {
 
   deleteUser(userId: number): void {
     // Implement delete user functionality
+  }
+
+  openModal(): void {
+    const modal = document.getElementById('userModal');
+    if (modal) {
+      modal.style.display = 'block';
+      modal.classList.add('show');
+      modal.setAttribute('aria-hidden', 'false');
+    }
+  }
+
+  closeModal(): void {
+    const modal = document.getElementById('userModal');
+    if (modal) {
+      modal.style.display = 'none';
+      modal.classList.remove('show');
+      modal.setAttribute('aria-hidden', 'true');
+    }
+  }
+
+  saveUser(): void {
+    // Prepare the data to be sent
+    const newUserPayload = {
+      username: this.newUser.username,
+      firstName: this.newUser.firstName,
+      lastName: this.newUser.lastName,
+      email: this.newUser.email,
+      password: this.newUser.password,
+      role: [this.newUser.role],
+      phone: this.newUser.phone,
+      address: this.newUser.address || '' // Ensure address is sent as an empty string if not provided
+    };
+
+    const token = localStorage.getItem('token');
+    if (token) {
+      const headers = new HttpHeaders().set('Authorization', `Bearer ${token}`);
+      this.http.post('http://localhost:8080/api/auth/signup', newUserPayload, { headers }).subscribe(
+        (response: any) => {
+          console.log('User created:', response);
+          this.fetchUsers(); // Refresh the user list
+          this.closeModal(); // Close the modal after saving
+        },
+        error => {
+          console.error('Error creating user', error);
+        }
+      );
+    } else {
+      console.error('No token found, user is not authenticated');
+    }
   }
 }
