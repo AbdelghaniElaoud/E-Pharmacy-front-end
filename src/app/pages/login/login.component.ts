@@ -71,7 +71,7 @@ export class LoginComponent {
 
     this.http.post('http://localhost:8080/api/auth/signup', registerPayload).subscribe((res: any) => {
       if (res.success) {
-        alert('Registration successful! Please login.');
+        // alert('Registration successful! Please login.');
         this.closeRegisterModal();
       } else {
         alert(res.message);
