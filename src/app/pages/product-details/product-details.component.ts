@@ -3,6 +3,7 @@ import {ActivatedRoute} from "@angular/router";
 import {HttpClient} from "@angular/common/http";
 import {NgForOf, NgIf} from "@angular/common";
 import {Location} from '@angular/common';
+import {CartService} from "../../service/cart-service/cart-service.service";
 
 @Component({
   selector: 'app-product-details',
@@ -18,7 +19,7 @@ export class ProductDetailsComponent implements OnInit{
   productId : number | undefined;
   product : any;
   selectedImageIndex: number = 0;
-  constructor(private route: ActivatedRoute, private  http:HttpClient, private _location : Location) {
+  constructor(private route: ActivatedRoute, private  http:HttpClient, private _location : Location, private cartService: CartService) {
     this.product = [];
     this.selectedImageIndex = 0;
   }
@@ -40,6 +41,6 @@ export class ProductDetailsComponent implements OnInit{
   }
 
   addToCartClicked() {
-
+    this.cartService.addToCart(this.product);
   }
 }
