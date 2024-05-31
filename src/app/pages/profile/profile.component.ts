@@ -61,6 +61,10 @@ export class ProfileComponent implements OnInit {
   }
 
   ngOnInit(): void {
+    this.loadUserProfile();
+  }
+
+  loadUserProfile(): void {
     const userId = +this.route.snapshot.paramMap.get('userId')!;
     this.profileService.getProfile(userId).subscribe(
       (data: UserProfile) => {
@@ -163,6 +167,7 @@ export class ProfileComponent implements OnInit {
             console.log('Profile photo upload response:', response);
             if (this.profile) {
               this.profile.profilePhoto = response.profilePhoto;
+              this.loadUserProfile(); // Refresh profile data
             }
           },
           error => {
