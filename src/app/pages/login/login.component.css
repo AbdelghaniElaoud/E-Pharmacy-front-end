@@ -5,11 +5,40 @@
   height: 1px;
   background: #eee;
 }
+
 .h-custom {
   height: calc(100% - 73px);
 }
+
 @media (max-width: 450px) {
   .h-custom {
     height: 100%;
   }
+}
+
+.modal.fade {
+  display: none;
+  opacity: 0;
+  transition: opacity 0.15s linear;
+}
+
+.modal.show {
+  display: block;
+  opacity: 1;
+}
+
+.modal-content {
+  border-radius: 1rem;
+}
+
+.modal-header .btn-close {
+  padding: 0.5rem;
+}
+
+.modal-footer .btn {
+  padding: 0.5rem 1.5rem;
+}
+
+.d-block {
+  display: block !important;
 }
