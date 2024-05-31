@@ -4,7 +4,7 @@ import { Login } from "../../model/Login";
 import { jwtDecode } from 'jwt-decode';
 import { Component } from "@angular/core";
 import { FormsModule } from "@angular/forms";
-import {NgIf} from "@angular/common";
+import { NgIf } from "@angular/common";
 
 interface User {
   sub: string;
@@ -30,7 +30,8 @@ export class LoginComponent {
     lastName: '',
     email: '',
     password: '',
-    phone: ''
+    phone: '',
+    address: ''
   };
   showModal: boolean = false;
 
@@ -66,6 +67,8 @@ export class LoginComponent {
       role: ['customer']  // Default role for registration
     };
 
+    console.log(registerPayload);
+
     this.http.post('http://localhost:8080/api/auth/signup', registerPayload).subscribe((res: any) => {
       if (res.success) {
         alert('Registration successful! Please login.');
@@ -83,7 +86,8 @@ export class LoginComponent {
       lastName: '',
       email: '',
       password: '',
-      phone: ''
+      phone: '',
+      address: ''
     };
     this.showModal = true;
   }
