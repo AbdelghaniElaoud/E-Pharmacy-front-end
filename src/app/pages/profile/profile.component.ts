@@ -126,13 +126,11 @@ export class ProfileComponent implements OnInit {
       formData.append('firstName', this.editData.firstName);
       formData.append('lastName', this.editData.lastName);
       formData.append('email', this.editData.email);
-      if (this.editData.profilePhoto) {
-        formData.append('profilePhoto', this.editData.profilePhoto);
-      }
 
       this.http.post<ProfileUpdateResponse>(url, formData, { headers }).subscribe(
         (response: ProfileUpdateResponse) => {
           console.log('Profile update response:', response);
+          this.loadUserProfile();
           if (this.profile) {
             this.profile.firstName = response.firstName;
             this.profile.lastName = response.lastName;
