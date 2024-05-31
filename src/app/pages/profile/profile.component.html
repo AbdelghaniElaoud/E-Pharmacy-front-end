@@ -4,7 +4,10 @@
     <img [src]="profile.profilePhoto.link" [alt]="profile.profilePhoto.altText" class="profile-photo" />
   </ng-container>
   <ng-template #noPhoto>
-    <input type="file" (change)="onFileSelected($event)" />
+    <div>
+      <input type="file" (change)="onFileSelected($event)" />
+      <button (click)="uploadProfilePhoto()">Upload Photo</button>
+    </div>
   </ng-template>
   <div class="profile-info">
     <p><strong>Username:</strong> <span>{{ profile.username }}</span></p>

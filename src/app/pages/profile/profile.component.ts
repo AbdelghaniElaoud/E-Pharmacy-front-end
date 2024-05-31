@@ -147,4 +147,31 @@ export class ProfileComponent implements OnInit {
       console.error('No token found, user is not authenticated');
     }
   }
+
+  uploadProfilePhoto(): void {
+    if (this.editData.profilePhoto && this.profile) {
+      const url = `http://localhost:8080/api/users/${this.profile.id}/add-profile`;
+      const token = localStorage.getItem('token'); // Retrieve the token from storage
+
+      if (token) {
+        const headers = new HttpHeaders().set('Authorization', `Bearer ${token}`);
+        const formData: FormData = new FormData();
+        formData.append('image', this.editData.profilePhoto);
+
+        this.http.post(url, formData, { headers }).subscribe(
+          (response: any) => {
+            console.log('Profile photo upload response:', response);
+            if (this.profile) {
+              this.profile.profilePhoto = response.profilePhoto;
+            }
+          },
+          error => {
+            console.error('Error uploading profile photo:', error);
+          }
+        );
+      } else {
+        console.error('No token found, user is not authenticated');
+      }
+    }
+  }
 }
