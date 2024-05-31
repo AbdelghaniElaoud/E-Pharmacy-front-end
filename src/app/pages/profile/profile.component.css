@@ -18,50 +18,6 @@
 }
 
 .profile-photo {
-  max-width: 150px;
-  border-radius: 50%;
-  margin-bottom: 20px;
-  border: 3px solid #007bff;
-  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
-}
-
-.profile-info {
-  text-align: left;
-}
-
-.profile-info p {
-  margin: 10px 0;
-  font-size: 16px;
-}
-
-.profile-info p strong {
-  color: #007bff;
-}
-
-.profile-info p span {
-  font-weight: bold;
-  color: #333;
-}
-.profile-container {
-  padding: 20px;
-  font-family: 'Arial', sans-serif;
-  text-align: center;
-  max-width: 400px;
-  margin: 0 auto;
-  background-color: #f9f9f9;
-  border: 1px solid #ddd;
-  border-radius: 8px;
-  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
-}
-
-.profile-container h2 {
-  color: #333;
-  margin-bottom: 20px;
-  font-size: 24px;
-  font-weight: bold;
-}
-
-.profile-photo {
   width: 150px;
   height: 150px;
   border-radius: 50%;
@@ -94,3 +50,26 @@
   color: #333;
 }
 
+.edit-form {
+  margin-top: 20px;
+}
+
+.edit-form label {
+  display: block;
+  margin-bottom: 8px;
+  font-weight: bold;
+}
+
+.edit-form input[type="text"],
+.edit-form input[type="email"],
+.edit-form input[type="file"] {
+  width: 100%;
+  padding: 8px;
+  margin-bottom: 10px;
+  border: 1px solid #ddd;
+  border-radius: 4px;
+}
+
+.edit-form button {
+  margin-right: 10px;
+}

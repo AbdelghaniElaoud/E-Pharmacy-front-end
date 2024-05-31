@@ -1,9 +1,33 @@
 import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
-import {HttpClient, HttpHandler, HttpHeaders} from '@angular/common/http';
+import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { ProfileService } from '../../service/profile/profile.service';
 import { FormsModule } from '@angular/forms';
 import { NgIf } from '@angular/common';
+
+interface UserProfile {
+  id: number;
+  firstName: string;
+  lastName: string;
+  email: string;
+  profilePhoto?: {
+    link: string;
+    altText: string;
+  };
+  createdAt: string;
+  status: string;
+  username: string;
+}
+
+interface ProfileUpdateResponse {
+  firstName: string;
+  lastName: string;
+  email: string;
+  profilePhoto?: {
+    link: string;
+    altText: string;
+  };
+}
 
 @Component({
   selector: 'app-profile',
@@ -17,15 +41,16 @@ import { NgIf } from '@angular/common';
   providers: [ProfileService]
 })
 export class ProfileComponent implements OnInit {
-  profile: any;
+  profile: UserProfile | null = null;
   accountAgeDays: number | null = null;
   accountAgeHours: number | null = null;
   isEditing = false;
   editData = {
-    id: null,
+    id: null as number | null,
     firstName: '',
     lastName: '',
-    email: ''
+    email: '',
+    profilePhoto: null as File | null
   };
 
   constructor(
@@ -38,7 +63,7 @@ export class ProfileComponent implements OnInit {
   ngOnInit(): void {
     const userId = +this.route.snapshot.paramMap.get('userId')!;
     this.profileService.getProfile(userId).subscribe(
-      data => {
+      (data: UserProfile) => {
         this.profile = data;
         this.calculateAccountAge(this.profile.createdAt);
         this.initializeEditData();
@@ -76,6 +101,13 @@ export class ProfileComponent implements OnInit {
     this.isEditing = false;
   }
 
+  onFileSelected(event: any): void {
+    const file: File = event.target.files[0];
+    if (file) {
+      this.editData.profilePhoto = file;
+    }
+  }
+
   onSubmit(): void {
     console.log('Submitting form data:', this.editData);
     const url = 'http://localhost:8080/api/users/update-profile';
@@ -83,12 +115,28 @@ export class ProfileComponent implements OnInit {
 
     if (token) {
       const headers = new HttpHeaders().set('Authorization', `Bearer ${token}`);
-      this.http.post(url, this.editData, { headers }).subscribe(
-        response => {
+      const formData: FormData = new FormData();
+      if (this.editData.id !== null) {
+        formData.append('id', this.editData.id.toString());
+      }
+      formData.append('firstName', this.editData.firstName);
+      formData.append('lastName', this.editData.lastName);
+      formData.append('email', this.editData.email);
+      if (this.editData.profilePhoto) {
+        formData.append('profilePhoto', this.editData.profilePhoto);
+      }
+
+      this.http.post<ProfileUpdateResponse>(url, formData, { headers }).subscribe(
+        (response: ProfileUpdateResponse) => {
           console.log('Profile update response:', response);
-          this.profile.firstName = this.editData.firstName;
-          this.profile.lastName = this.editData.lastName;
-          this.profile.email = this.editData.email;
+          if (this.profile) {
+            this.profile.firstName = response.firstName;
+            this.profile.lastName = response.lastName;
+            this.profile.email = response.email;
+            if (response.profilePhoto) {
+              this.profile.profilePhoto = response.profilePhoto;
+            }
+          }
           this.isEditing = false;
         },
         error => {
