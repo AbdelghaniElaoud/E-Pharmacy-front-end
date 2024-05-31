@@ -4,9 +4,10 @@
     <img [src]="profile.profilePhoto.link" [alt]="profile.profilePhoto.altText" class="profile-photo" />
   </ng-container>
   <ng-template #noPhoto>
-    <div>
-      <input type="file" (change)="onFileSelected($event)" />
-      <button (click)="uploadProfilePhoto()">Upload Photo</button>
+    <div class="upload-photo-container">
+      <input type="file" (change)="onFileSelected($event)" id="file-upload" class="file-input" />
+      <label for="file-upload" class="file-label">Choose File</label>
+      <button (click)="uploadProfilePhoto()" class="upload-btn">Upload Photo</button>
     </div>
   </ng-template>
   <div class="profile-info">
@@ -21,7 +22,7 @@
     <p *ngIf="accountAgeDays === 0 && accountAgeHours !== null">
       <strong>Account Age:</strong> <span>{{ accountAgeHours }} hours</span>
     </p>
-    <button (click)="editProfile()">Edit Profile</button>
+    <button (click)="editProfile()" class="edit-btn">Edit Profile</button>
   </div>
 
   <div *ngIf="isEditing" class="edit-form">
@@ -39,8 +40,8 @@
         <label for="email">Email:</label>
         <input type="email" id="email" [(ngModel)]="editData.email" name="email" required>
       </div>
-      <button type="submit">Save Changes</button>
-      <button type="button" (click)="cancelEdit()">Cancel</button>
+      <button type="submit" class="save-btn">Save Changes</button>
+      <button type="button" (click)="cancelEdit()" class="cancel-btn">Cancel</button>
     </form>
   </div>
 </div>
