@@ -15,6 +15,7 @@ import {OrdersPharmacistComponent} from "./pages/orders-pharmacist/orders-pharma
 import {OrdersDeliveryComponent} from "./pages/orders-delivery/orders-delivery.component";
 import {ProfileComponent} from "./pages/profile/profile.component";
 import {ManageUsersComponent} from "./pages/manage-users/manage-users.component";
+import {OrderHistoryComponent} from "./pages/order-history/order-history.component";
 
 export const routes: Routes = [
   {
@@ -61,7 +62,9 @@ export const routes: Routes = [
         path: 'profile/:userId', component: ProfileComponent
       }
       ,
-      { path: 'manage-users', component: ManageUsersComponent }
+      { path: 'manage-users', component: ManageUsersComponent
+      },
+      { path: 'orders-history', component: OrderHistoryComponent }
     ]
   }
 ];

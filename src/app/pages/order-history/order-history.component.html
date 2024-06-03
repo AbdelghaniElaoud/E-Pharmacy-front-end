@@ -1,0 +1,30 @@
+<div class="container">
+  <h2>Order History</h2>
+  <table class="table table-striped">
+    <thead>
+    <tr>
+      <th>Total Price</th>
+      <th>Entries</th>
+      <th>Status</th>
+    </tr>
+    </thead>
+    <tbody>
+    <tr *ngIf="orders.length === 0">
+      <td colspan="3">No orders available.</td>
+    </tr>
+    <tr *ngFor="let order of orders">
+      <td>{{ order.orderDTO.totalPrice | currency:'MAD':'symbol' }}</td>
+      <td>
+        <ul>
+          <li *ngFor="let entry of order.orderDTO.entries">
+            {{ entry.quantity }} x {{ entry.product.name }} ({{ entry.totalPrice | currency:'MAD':'symbol' }})
+          </li>
+        </ul>
+      </td>
+      <td class="status" [ngClass]="getStatusClass(order.orderDTO.orderStatus)">
+        {{ getStatusMessage(order.orderDTO.orderStatus) }}
+      </td>
+    </tr>
+    </tbody>
+  </table>
+</div>
