@@ -46,7 +46,7 @@
                 Remember me
               </label>
             </div>
-            <a href="#!" class="text-body">Forgot password?</a>
+            <a  class="text-body" (click)="openForgotPasswordModal()">Forgot password?</a>
           </div>
 
           <div class="text-center text-lg-start mt-4 pt-2">
@@ -102,6 +102,30 @@
         <div class="modal-footer">
           <button type="button" class="btn btn-secondary" (click)="closeRegisterModal()">Close</button>
           <button type="button" class="btn btn-primary" (click)="onRegister()">Register</button>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Forgot Password Modal -->
+  <div *ngIf="showForgotPasswordModal" class="modal fade show d-block" tabindex="-1" aria-labelledby="forgotPasswordModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h5 class="modal-title" id="forgotPasswordModalLabel">Forgot Password</h5>
+          <button type="button" class="btn-close" (click)="closeForgotPasswordModal()"></button>
+        </div>
+        <div class="modal-body">
+          <form>
+            <div class="form-outline mb-4">
+              <input type="email" id="forgotPasswordEmail" class="form-control form-control-lg" placeholder="Enter email address" [(ngModel)]="forgotPasswordEmail" name="email"/>
+              <label class="form-label" for="forgotPasswordEmail">Email</label>
+            </div>
+          </form>
+        </div>
+        <div class="modal-footer">
+          <button type="button" class="btn btn-secondary" (click)="closeForgotPasswordModal()">Close</button>
+          <button type="button" class="btn btn-primary" (click)="onForgotPassword()">Submit</button>
         </div>
       </div>
     </div>

@@ -34,6 +34,8 @@ export class LoginComponent {
     address: ''
   };
   showModal: boolean = false;
+  showForgotPasswordModal = false;
+  forgotPasswordEmail = '';
 
   constructor(private http: HttpClient, private router: Router) {
     this.LoginObj = new Login();
@@ -98,5 +100,29 @@ export class LoginComponent {
 
   isLoggedIn(): boolean {
     return !!localStorage.getItem('token');
+  }
+
+  openForgotPasswordModal() {
+    this.showForgotPasswordModal = true;
+  }
+
+  closeForgotPasswordModal() {
+    this.showForgotPasswordModal = false;
+  }
+  onForgotPassword() {
+    const payload = {
+      email: this.forgotPasswordEmail
+    };
+
+    this.http.post('http://localhost:8080/api/users/update-password-request', payload)
+      .subscribe(
+        (response: any) => {
+          alert(response.content);
+          this.closeForgotPasswordModal();
+        },
+        (error) => {
+          alert('Error: ' + error.error.message);
+        }
+      );
   }
 }
