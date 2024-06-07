@@ -4,18 +4,17 @@
 
     <nav>
       <ul>
-        <li><a href="#">Home</a></li>
-        <li><a routerLink="/dashboard">Products</a></li>
-        <li><a routerLink="/add-product">Add Product</a></li>
-        <li><a routerLink="/product-management">Product Management</a></li>
-        <li><a routerLink="/category" routerLinkActive="active">Category</a></li>
-        <li><a routerLink="/orders-pharmacist" routerLinkActive="active">Orders</a></li>
-        <li><a routerLink="/orders-delivery" routerLinkActive="active">Orders Delivery</a></li>
-        <li><a [routerLink]="['/profile', userId]" routerLinkActive="active">Profile</a></li>
-        <li><a routerLink="/manage-users" routerLinkActive="active">Manage Users</a></li>
-        <li><a routerLink="/orders-history" routerLinkActive="active">Orders History</a></li>
-        <li><a (click)="logOut()">Logout</a></li>
-        <li><a routerLink="/cart">Cart ({{ cartItemCount }})</a></li>
+        <li *ngIf="userRole === 'ROLE_CUSTOMER'"><a routerLink="/dashboard">Products</a></li>
+        <li *ngIf="userRole === 'ROLE_ADMIN'"><a routerLink="/add-product">Add Product</a></li>
+        <li *ngIf="userRole === 'ROLE_ADMIN'"><a routerLink="/product-management">Product Management</a></li>
+        <li *ngIf="userRole === 'ROLE_ADMIN'"><a routerLink="/category" routerLinkActive="active">Category</a></li>
+        <li *ngIf="userRole === 'ROLE_PHARMACIST'"><a routerLink="/orders-pharmacist" routerLinkActive="active">Orders</a></li>
+        <li *ngIf="userRole === 'ROLE_DELIVERY_MAN'"><a routerLink="/orders-delivery" routerLinkActive="active">Orders Delivery</a></li>
+        <li *ngIf="userRole === 'ROLE_DELIVERY_MAN'|| userRole === 'ROLE_ADMIN'|| userRole === 'ROLE_PHARMACIST'|| userRole === 'ROLE_CUSTOMER'"><a [routerLink]="['/profile', userId]" routerLinkActive="active">Profile</a></li>
+        <li *ngIf="userRole === 'ROLE_ADMIN'"><a routerLink="/manage-users" routerLinkActive="active">Manage Users</a></li>
+        <li *ngIf="userRole === 'ROLE_CUSTOMER'"><a routerLink="/orders-history" routerLinkActive="active">Orders History</a></li>
+        <li *ngIf="userRole === 'ROLE_DELIVERY_MAN'|| userRole === 'ROLE_ADMIN'|| userRole === 'ROLE_PHARMACIST'|| userRole === 'ROLE_CUSTOMER'"><a (click)="logOut()">Logout</a></li>
+        <li *ngIf="userRole === 'ROLE_CUSTOMER'"><a routerLink="/cart">Cart ({{ cartItemCount }})</a></li>
       </ul>
     </nav>
   </div>

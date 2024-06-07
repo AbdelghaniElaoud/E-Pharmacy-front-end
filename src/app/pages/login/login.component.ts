@@ -50,7 +50,24 @@ export class LoginComponent {
           const decodedToken: User = jwtDecode(token);
           if (decodedToken.active) {
             const userRole = decodedToken.roles[0].authority;
-            this.router.navigate(['/dashboard']);
+            switch(userRole) {
+              case 'ROLE_CUSTOMER':
+                this.router.navigate(['/dashboard']);
+                break;
+              case 'ROLE_DELIVERY_MAN':
+                this.router.navigate(['/orders-delivery']);
+                break;
+              case 'ROLE_PHARMACIST':
+                this.router.navigate(['/orders-pharmacist']);
+                break;
+              case 'ROLE_ADMIN':
+                this.router.navigate(['/manage-users']);
+                break;
+              default:
+                console.error('Unknown role');
+                break;
+            }
+            /*this.router.navigate(['/dashboard']);*/
           } else {
             alert(res.message);
           }

@@ -3,6 +3,7 @@ import { CartService } from "../../service/cart-service/cart-service.service";
 import {CurrencyPipe, KeyValuePipe, NgForOf, NgIf} from "@angular/common";
 import {FormsModule} from "@angular/forms";
 import {Router} from "@angular/router";
+import toastr from 'toastr';
 
 
 @Component({
@@ -104,6 +105,8 @@ export class CartComponent {
           this.cartService.placeOrder().subscribe(
             response => {
               console.log('Order placed successfully:', response);
+              alert("Order placed successfully")
+              toastr.success('Message sent successfully!');
               this.refreshComponent();
             },
             error => {
@@ -118,7 +121,9 @@ export class CartComponent {
     } else {
       this.cartService.placeOrder().subscribe(
         response => {
-          console.log('Order placed successfully:', response);
+          console.log('Order placed successfully:', response)
+          alert("Order placed successfully")
+          toastr.success('Message sent successfully!');
           this.refreshComponent();
         },
         error => {
@@ -129,9 +134,9 @@ export class CartComponent {
   }
 
   refreshComponent() {
-    const currentUrl = this.router.url;
-    this.router.navigateByUrl('/', { skipLocationChange: true }).then(() => {
-      this.router.navigate([currentUrl]);
-    });
+    this.router.navigate([this.router.url])
+      .then(() => {
+        window.location.reload();
+      });
   }
 }
