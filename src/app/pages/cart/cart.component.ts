@@ -31,6 +31,7 @@ export class CartComponent {
   customerId: number = 0;
 
   constructor(private cartService: CartService, private router: Router) {
+    console.log("Creating cart component");
     this.cartItems = this.cartService.cart;
     this.totalPrice = this.cartService.totalPrice;
     this.address = this.cartService.address;

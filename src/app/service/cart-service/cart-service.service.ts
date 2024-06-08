@@ -111,6 +111,12 @@ export class CartService implements OnInit {
       this.updateTotalPrice();
       this.cartSubject.next(this.cart);
       this.addItemToCartOnServer(existingQuantity + 1, product.id);
+
+      for (let pr of this.cart.keys()) {
+        if (pr.prescription){
+          this.requiresPrescription = true;
+        }
+      }
     }).catch((error) => {
       console.error('Error adding to cart:', error);
     });
