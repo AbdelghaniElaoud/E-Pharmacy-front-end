@@ -59,7 +59,10 @@ export class DashboardComponent implements OnInit {
     });
   }
 
-  filterProducts() {
+  filterProducts(category? : any) {
+    if (category){
+      this.selectedCategory = category;
+    }
     this.filteredProducts = this.products.filter(product => {
       return (
         (this.selectedCategory === '' || product.category.name === this.selectedCategory) &&

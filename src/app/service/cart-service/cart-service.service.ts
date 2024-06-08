@@ -123,10 +123,10 @@ export class CartService implements OnInit {
         return;
       }
       const currentQuantity = this.cart.get(product) || 0;
-      this.cart.set(product, currentQuantity + 1);
+      // this.cart.set(product, currentQuantity + 1);
       this.updateTotalPrice();
       this.cartSubject.next(this.cart);
-      this.addItemToCartOnServer(currentQuantity + 1, product.id);
+      this.addItemToCartOnServer(currentQuantity /*+ 1*/, product.id);
     }).catch((error) => {
       console.error('Error increasing quantity:', error);
     });
@@ -139,11 +139,11 @@ export class CartService implements OnInit {
         return;
       }
       const currentQuantity = this.cart.get(product) || 0;
-      if (currentQuantity > 1) {
-        this.cart.set(product, currentQuantity - 1);
+      if (currentQuantity >= 1) {
+        // this.cart.set(product, currentQuantity - 1);
         this.updateTotalPrice();
         this.cartSubject.next(this.cart);
-        this.addItemToCartOnServer(currentQuantity - 1, product.id);
+        this.addItemToCartOnServer(currentQuantity /*- 1*/, product.id);
       } else {
         this.removeFromCart(product);
       }

@@ -196,7 +196,7 @@
     <div *ngFor="let product of filteredProducts" class="product-card">
       <img [src]="product.medias[0]" alt="{{product.name}}" class="product-image">
       <h3>{{product.name}}</h3>
-      <p class="product-price">${{product.price}}</p>
+      <p class="product-price">{{product.price}} MAD </p>
       <button routerLink="/login" href="http://localhost:4200/login" style="font-size: 16px; background-color: #1689ca; border-bottom: 0px solid #8a3b8f; border-left: 0px solid #8a3b8f; border-radius: 20px; border-right: 0px solid #8a3b8f; border-top: 0px solid #8a3b8f; color: #ffffff; direction: ltr; font-family: 'Merriwheater', 'Georgia', serif; max-width: 100%; padding-bottom: 04px; padding-left: 24px; padding-right: 24px; padding-top: 04px; width: auto; display: inline-block;">Buy Now</button>
     </div>
   </div>
