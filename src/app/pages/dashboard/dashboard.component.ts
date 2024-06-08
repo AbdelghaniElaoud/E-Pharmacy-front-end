@@ -2,7 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { NgForOf, SlicePipe } from '@angular/common';
 import { Category } from '../../model/Category';
-import { RouterLink } from '@angular/router';
+import { RouterLink, ActivatedRoute } from '@angular/router';
 import { CartService } from '../../service/cart-service/cart-service.service';
 import {FormsModule} from "@angular/forms";
 
@@ -29,7 +29,7 @@ export class DashboardComponent implements OnInit {
   cartItemCount: number = 0;
   cartProducts: [any, number][] = [];
 
-  constructor(private http: HttpClient, private cartService: CartService) {
+  constructor(private http: HttpClient, private cartService: CartService, private route: ActivatedRoute) {
     this.cartService.cart$.subscribe(cartMap => {
       this.cartItemCount = this.cartService.getCartLength();
     });
@@ -39,6 +39,10 @@ export class DashboardComponent implements OnInit {
   ngOnInit(): void {
     this.getAllProducts();
     this.getCategories();
+    // Accessing Query Parameters
+    this.route.queryParams.subscribe(queryParams => {
+      console.log('Query parameter ID:', queryParams['xyz']);
+    });
   }
 
   getAllProducts() {
