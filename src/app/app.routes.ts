@@ -10,19 +10,23 @@ import { CartComponent } from './pages/cart/cart.component';
 import { AddProductComponent } from './pages/add-product/add-product.component';
 import { AddMediaComponent } from './pages/add-media/add-media.component';
 import { ProductManagementComponent } from './pages/product-management/product-management.component';
-import {authGuard} from "./service/auth/auth.guard";
-import {OrdersPharmacistComponent} from "./pages/orders-pharmacist/orders-pharmacist.component";
-import {OrdersDeliveryComponent} from "./pages/orders-delivery/orders-delivery.component";
-import {ProfileComponent} from "./pages/profile/profile.component";
-import {ManageUsersComponent} from "./pages/manage-users/manage-users.component";
-import {OrderHistoryComponent} from "./pages/order-history/order-history.component";
+import { OrdersPharmacistComponent } from './pages/orders-pharmacist/orders-pharmacist.component';
+import { OrdersDeliveryComponent } from './pages/orders-delivery/orders-delivery.component';
+import { ProfileComponent } from './pages/profile/profile.component';
+import { ManageUsersComponent } from './pages/manage-users/manage-users.component';
+import { OrderHistoryComponent } from './pages/order-history/order-history.component';
+import { LandingPageComponent } from './pages/landing-page/landing-page.component';
+import { authGuard } from './service/auth/auth.guard';
 
 export const routes: Routes = [
   {
-    path: '', redirectTo: 'login', pathMatch: 'full'
+    path: '', redirectTo: 'landing-page', pathMatch: 'full'
   },
   {
     path: 'login', component: LoginComponent
+  },
+  {
+    path: 'landing-page', component: LandingPageComponent
   },
   {
     path: '',
@@ -59,12 +63,14 @@ export const routes: Routes = [
         path: 'orders-delivery', component: OrdersDeliveryComponent, canActivate: [authGuard]
       },
       {
-        path: 'profile/:userId', component: ProfileComponent
-      }
-      ,
-      { path: 'manage-users', component: ManageUsersComponent
+        path: 'profile/:userId', component: ProfileComponent, canActivate: [authGuard]
       },
-      { path: 'orders-history', component: OrderHistoryComponent }
+      {
+        path: 'manage-users', component: ManageUsersComponent, canActivate: [authGuard]
+      },
+      {
+        path: 'orders-history', component: OrderHistoryComponent, canActivate: [authGuard]
+      }
     ]
   }
 ];
