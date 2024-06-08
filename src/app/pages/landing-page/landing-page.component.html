@@ -192,6 +192,14 @@
       </div>
     </div>
   </div>
+  <div class="product-slider">
+    <div *ngFor="let product of filteredProducts" class="product-card">
+      <img [src]="product.medias[0]" alt="{{product.name}}" class="product-image">
+      <h3>{{product.name}}</h3>
+      <p class="product-price">${{product.price}}</p>
+      <button routerLink="/login" href="http://localhost:4200/login" style="font-size: 16px; background-color: #1689ca; border-bottom: 0px solid #8a3b8f; border-left: 0px solid #8a3b8f; border-radius: 20px; border-right: 0px solid #8a3b8f; border-top: 0px solid #8a3b8f; color: #ffffff; direction: ltr; font-family: 'Merriwheater', 'Georgia', serif; max-width: 100%; padding-bottom: 04px; padding-left: 24px; padding-right: 24px; padding-top: 04px; width: auto; display: inline-block;">Buy Now</button>
+    </div>
+  </div>
   <div class="bee-row bee-row-14">
     <div class="bee-row-content">
       <div class="bee-col bee-col-1 bee-col-w6">
@@ -199,7 +207,7 @@
         <div class="bee-block bee-block-2 bee-image"><img alt="Kid Health Image 2" class="bee-center bee-fixedwidth" src="https://imgs.search.brave.com/HQKTuQAT10Dk3iNYwTxDK1W0X_uelSfsHWJR11vtiAk/rs:fit:860:0:0/g:ce/aHR0cHM6Ly9pbWcu/ZnJlZXBpay5jb20v/ZnJlZS1waG90by95/b3VuZy13b21hbi1w/aGFybWFjaXN0LXBo/YXJtYWN5XzEzMDMt/MjU1NDEuanBnP3Np/emU9NjI2JmV4dD1q/cGc" style="max-width:471px;" /></div>
       </div>
       <div class="bee-col bee-col-2 bee-col-w6">
-        <div class="bee-block bee-block-1 bee-image"><img alt="Kid Health Image 3" class="bee-center bee-fixedwidth" src="https://imgs.search.brave.com/2vud0jivbLnRNxs0f_1Cic9scAvKuSrOETd5F7AB9aQ/rs:fit:860:0:0/g:ce/aHR0cHM6Ly9pbWcu/ZnJlZXBpay5jb20v/cHJlbWl1bS1waG90/by9kcnVncy1kZXRh/aWxlZC1jbG9zZXVw/LXNob3RfODQ2NDg1/LTcwMC5qcGc_c2l6/ZT02MjYmZXh0PWpw/Zw" style="max-width:435px;" /></div>
+        <div class="bee-block bee-block-1 bee-image"><img alt="Kid Health Image 3" class="bee-center bee-fixedwidth" src="https://imgs.search.brave.com/2vud0jivbLnRNxs0f_1Cic9scAvKuSrOETd5F7AB9aQ/rs:fit:860:0:0/g:ce/aHR0cHM6Ly9pbWcu/ZnJlZXBpay5jb20v/cHJlbWl1bS1waG90/by9kcnVncy1kZXRh/aWxlZC1jbG9zZXVw/LXNob3RfODQ2NDg1/LTcwMC5qcGc_c2l6/ZT02MjYmZXh0PWpw/Zw" style="max-width:435px;margin-top: 69px;" /></div>
       </div>
     </div>
   </div>
@@ -273,7 +281,7 @@
           <p style="word-break:break-word;"><span><a href="https://www.google.com/maps/place/Pharmacie+Aloum/@33.569414,-7.6311233,17z/data=!3m1!4b1!4m6!3m5!1s0xda7d2b6de6c7157:0x3e9a3d2532179600!8m2!3d33.5694096!4d-7.6285484!16s%2Fg%2F11ddykdz_y?entry=ttu" rel="noopener" style="text-decoration: none;" target="_blank"><strong>View Map</strong></a></span></p>
         </div>
         <div class="map-container">
-          <iframe src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3022.892784444069!2d-73.98643278459554!3d40.74881767933086!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x89c2598da380e04f%3A0xf02c3884a4df61ad!2sTimes%20Square%2C%20New%20York%2C%20NY%2010018%2C%20USA!5e0!3m2!1sen!2sin!4v1623161481185!5m2!1sen!2sin" allowfullscreen="" loading="lazy"></iframe>
+          <iframe src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3386.001945826892!2d-7.6816798!3d33.552126!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x0%3A0x0!2zMzPCsDMzJzA3LjYiTiA3wrA0MCcxMC41Ilc!5e0!3m2!1sen!2sus!4v1686543210987!5m2!1sen!2sus" allowfullscreen="" loading="lazy"></iframe>
         </div>
       </div>
     </div>

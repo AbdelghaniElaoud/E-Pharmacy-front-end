@@ -104,9 +104,9 @@ export class CartComponent {
         .then(() => {
           this.cartService.placeOrder().subscribe(
             response => {
-              console.log('Order placed successfully:', response);
+              /*console.log('Order placed successfully:', response);
               alert("Order placed successfully")
-              toastr.success('Message sent successfully!');
+              toastr.success('Message sent successfully!');*/
               this.refreshComponent();
             },
             error => {
@@ -121,9 +121,9 @@ export class CartComponent {
     } else {
       this.cartService.placeOrder().subscribe(
         response => {
-          console.log('Order placed successfully:', response)
+          /*console.log('Order placed successfully:', response)
           alert("Order placed successfully")
-          toastr.success('Message sent successfully!');
+          toastr.success('Message sent successfully!');*/
           this.refreshComponent();
         },
         error => {

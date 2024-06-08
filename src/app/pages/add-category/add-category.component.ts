@@ -23,7 +23,7 @@ export class AddCategoryComponent {
     debugger;
     this.http.post('http://localhost:8080/api/categories',this.categoryObj).subscribe((res:any)=>{
       if (res.name != 0){
-        alert("The category has been created!!");
+        /*alert("The category has been created!!");*/
       }else {
         alert(res.err)
       }
