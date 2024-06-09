@@ -5,3 +5,9 @@
 .category-card:hover {
   box-shadow: 0 0 20px rgba(0, 123, 255, 0.5);
 }
+.fragile-font {
+  font-family: 'Arial', sans-serif;  /* Choose a delicate font family */
+  font-weight: 300;  /* Use a lighter font weight */
+  letter-spacing: 1px;  /* Add some letter spacing */
+  color: #555;  /* Optional: use a softer color */
+}

@@ -6,8 +6,8 @@
     <div class="col-md-4 mb-4" *ngFor="let category of categories">
       <div class="card h-100 category-card">
         <div class="card-body d-flex flex-column">
-          <h5 class="card-title">ID: {{ category.id }}</h5>
           <h4 class="card-title">{{ category.name }}</h4>
+          <h5 class="card-title fragile-font">{{ category.productNumbers }} Products</h5>
           <div class="mt-auto">
             <!-- Add any additional actions or information for the category here -->
           </div>
