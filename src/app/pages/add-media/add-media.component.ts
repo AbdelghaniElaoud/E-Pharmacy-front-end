@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { ActivatedRoute } from "@angular/router";
+import {ActivatedRoute, Router} from "@angular/router";
 import { HttpClient, HttpEventType } from "@angular/common/http";
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
@@ -17,7 +17,7 @@ export class AddMediaComponent implements OnInit {
   uploadInProgress: boolean = false;
   uploadProgress: number = 0;
 
-  constructor(private route: ActivatedRoute, private http: HttpClient) {}
+  constructor(private route: ActivatedRoute, private http: HttpClient, private router: Router) {}
 
   ngOnInit(): void {
     const productIdParam = this.route.snapshot.paramMap.get('productId');
@@ -52,6 +52,8 @@ export class AddMediaComponent implements OnInit {
       } else if (event.type === HttpEventType.Response) {
         console.log('Media added successfully', event.body);
         this.uploadInProgress = false;
+        alert("The product has been added")
+        this.router.navigate(['/product-management']);
       }
     }, error => {
       console.error('Error adding media', error);
