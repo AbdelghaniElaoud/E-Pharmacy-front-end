@@ -8,7 +8,7 @@
       <div class="col-md-8 col-lg-6 col-xl-4 offset-xl-1">
         <form>
           <div class="d-flex flex-row align-items-center justify-content-center justify-content-lg-start">
-            <p class="lead fw-normal mb-0 me-3">Sign in with</p>
+            <!--<p class="lead fw-normal mb-0 me-3">Sign in with</p>
             <button type="button" class="btn btn-primary btn-floating mx-1">
               <i class="fab fa-facebook-f"></i>
             </button>
@@ -17,11 +17,11 @@
             </button>
             <button type="button" class="btn btn-primary btn-floating mx-1">
               <i class="fab fa-linkedin-in"></i>
-            </button>
+            </button>-->
           </div>
 
           <div class="divider d-flex align-items-center my-4">
-            <p class="text-center fw-bold mx-3 mb-0">Or</p>
+            <p class="text-center fw-bold mx-3 mb-0">Login</p>
           </div>
 
           <!-- Email input -->
@@ -52,7 +52,10 @@
           <div class="text-center text-lg-start mt-4 pt-2">
             <button type="button" class="btn btn-primary btn-lg"
                     style="padding-left: 2.5rem; padding-right: 2.5rem;" (click)="onLogin()">Login</button>
-            <p class="small fw-bold mt-2 pt-1 mb-0">Don't have an account? <a class="link-danger" (click)="openRegisterModal()">Register</a></p>
+            <button type="button" class="btn btn-secondary btn-lg" routerLink="/" style="margin-left: 145px;">
+              Go Back
+            </button>
+            <p class="small fw-bold mt-2 pt-1 mb-0">Don't have an account? <a class="link-danger" (click)="openRegisterModal()" style="cursor: pointer;">Register</a></p>
           </div>
         </form>
       </div>
@@ -70,31 +73,31 @@
         <div class="modal-body">
           <form>
             <div class="form-outline mb-4">
-              <input type="text" id="registerUsername" class="form-control form-control-lg" placeholder="Enter username" [(ngModel)]="RegisterObj.username" name="username"/>
+              <input type="text" id="registerUsername" class="form-control form-control-lg" placeholder="Enter username" [(ngModel)]="RegisterObj.username" name="username" autocomplete="off"/>
               <label class="form-label" for="registerUsername">Username</label>
             </div>
             <div class="form-outline mb-4">
-              <input type="text" id="registerFirstName" class="form-control form-control-lg" placeholder="Enter first name" [(ngModel)]="RegisterObj.firstName" name="firstName"/>
+              <input type="text" id="registerFirstName" class="form-control form-control-lg" placeholder="Enter first name" [(ngModel)]="RegisterObj.firstName" name="firstName" autocomplete="off"/>
               <label class="form-label" for="registerFirstName">First Name</label>
             </div>
             <div class="form-outline mb-4">
-              <input type="text" id="registerLastName" class="form-control form-control-lg" placeholder="Enter last name" [(ngModel)]="RegisterObj.lastName" name="lastName"/>
+              <input type="text" id="registerLastName" class="form-control form-control-lg" placeholder="Enter last name" [(ngModel)]="RegisterObj.lastName" name="lastName" autocomplete="off"/>
               <label class="form-label" for="registerLastName">Last Name</label>
             </div>
             <div class="form-outline mb-4">
-              <input type="email" id="registerEmail" class="form-control form-control-lg" placeholder="Enter email address" [(ngModel)]="RegisterObj.email" name="email"/>
+              <input type="email" id="registerEmail" class="form-control form-control-lg" placeholder="myemail@gmail.com" [(ngModel)]="RegisterObj.email" name="email" autocomplete="off"/>
               <label class="form-label" for="registerEmail">Email</label>
             </div>
             <div class="form-outline mb-4">
-              <input type="password" id="registerPassword" class="form-control form-control-lg" placeholder="Enter password" [(ngModel)]="RegisterObj.password" name="password"/>
+              <input type="password" id="registerPassword" class="form-control form-control-lg" placeholder="Enter password" [(ngModel)]="RegisterObj.password" name="password" autocomplete="off"/>
               <label class="form-label" for="registerPassword">Password</label>
             </div>
             <div class="form-outline mb-4">
-              <input type="text" id="registerPhone" class="form-control form-control-lg" placeholder="Enter phone number" [(ngModel)]="RegisterObj.phone" name="phone"/>
+              <input type="tel" id="registerPhone" class="form-control form-control-lg" placeholder="+212 603942448" [(ngModel)]="RegisterObj.phone" name="phone" autocomplete="off"/>
               <label class="form-label" for="registerPhone">Phone</label>
             </div>
             <div class="form-outline mb-4">
-              <input type="text" id="registerAddress" class="form-control form-control-lg" placeholder="Enter address" [(ngModel)]="RegisterObj.address" name="address"/>
+              <input type="text" id="registerAddress" class="form-control form-control-lg" placeholder="Casablanca - sidi maarof" [(ngModel)]="RegisterObj.address" name="address" autocomplete="off"/>
               <label class="form-label" for="registerAddress">Address</label>
             </div>
           </form>

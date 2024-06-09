@@ -1,8 +1,8 @@
 import { HttpClient, HttpClientModule } from "@angular/common/http";
-import { Router } from "@angular/router";
+import { Router, RouterLink } from "@angular/router";
 import { Login } from "../../model/Login";
-import { jwtDecode } from 'jwt-decode';
-import { Component } from "@angular/core";
+import {jwtDecode} from 'jwt-decode';
+import { Component, ChangeDetectorRef } from "@angular/core";
 import { FormsModule } from "@angular/forms";
 import { NgIf } from "@angular/common";
 
@@ -17,11 +17,10 @@ interface User {
 @Component({
   selector: 'app-login',
   standalone: true,
-  imports: [FormsModule, HttpClientModule, NgIf],
+  imports: [FormsModule, HttpClientModule, NgIf, RouterLink],
   templateUrl: './login.component.html',
   styleUrls: ['./login.component.css']
 })
-
 export class LoginComponent {
   LoginObj: Login;
   RegisterObj: any = {
@@ -37,7 +36,7 @@ export class LoginComponent {
   showForgotPasswordModal = false;
   forgotPasswordEmail = '';
 
-  constructor(private http: HttpClient, private router: Router) {
+  constructor(private http: HttpClient, private router: Router, private cdr: ChangeDetectorRef) {
     this.LoginObj = new Login();
   }
 
@@ -67,7 +66,6 @@ export class LoginComponent {
                 console.error('Unknown role');
                 break;
             }
-            /*this.router.navigate(['/dashboard']);*/
           } else {
             alert(res.message);
           }
@@ -86,12 +84,11 @@ export class LoginComponent {
       role: ['customer']  // Default role for registration
     };
 
-    console.log(registerPayload);
-
     this.http.post('http://localhost:8080/api/auth/signup', registerPayload).subscribe((res: any) => {
       if (res.success) {
-        // alert('Registration successful! Please login.');
-        this.closeRegisterModal();
+        alert('Registration successful! Please login.');
+        this.showModal = false;
+        this.cdr.detectChanges(); // Force Angular to detect changes
       } else {
         alert(res.message);
       }
@@ -113,6 +110,7 @@ export class LoginComponent {
 
   closeRegisterModal() {
     this.showModal = false;
+    this.cdr.detectChanges(); // Force Angular to detect changes
   }
 
   isLoggedIn(): boolean {
@@ -125,7 +123,9 @@ export class LoginComponent {
 
   closeForgotPasswordModal() {
     this.showForgotPasswordModal = false;
+    this.cdr.detectChanges(); // Force Angular to detect changes
   }
+
   onForgotPassword() {
     const payload = {
       email: this.forgotPasswordEmail
