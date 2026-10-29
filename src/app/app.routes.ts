@@ -26,7 +26,7 @@ export const routes: Routes = [
     path: 'login', component: LoginComponent
   },
   {
-    path: '', component: LandingPageComponent
+    path: 'landing-page', component: LandingPageComponent
   },
   {
     path: '',
